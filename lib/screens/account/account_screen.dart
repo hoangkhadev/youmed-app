@@ -6,6 +6,6 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [Text('Trang Tài Khoản')]);
+    return Column(children: [Text('Trang Tài Khoản Nek')]);
   }
 }
