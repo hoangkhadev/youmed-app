@@ -33,6 +33,8 @@ class FeatureItem extends StatelessWidget {
             width: widthSizedBox,
             child: Text(
               title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: fontSize,
