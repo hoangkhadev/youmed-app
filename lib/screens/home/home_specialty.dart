@@ -13,6 +13,8 @@ class HomeSpecialty extends StatefulWidget {
 }
 
 class _HomeSpecialtyState extends State<HomeSpecialty> {
+  var displayItems = specialties.take(8).toList();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,19 +26,18 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
           HeadingTitle(
             iconPath: GlobalImageIcons.specialtyBagIcon,
             title: 'Khám theo chuyên khoa',
-            isArrow: true,
           ),
           SizedBox(height: 30),
           Column(
             children: List.generate(2, (rowIndex) {
-              int startIndex = rowIndex * 2;
+              int startIndex = rowIndex * 4;
               return Padding(
-                padding: EdgeInsets.only(bottom: rowIndex < 1 ? 35 : 0),
+                padding: EdgeInsets.only(bottom: rowIndex < 1 ? 30 : 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: List.generate(4, (colIndex) {
                     int itemIndex = startIndex + colIndex;
-                    final item = specialties[itemIndex];
+                    final item = displayItems[itemIndex];
                     return FeatureItem(
                       width: 55,
                       height: 55,
@@ -49,11 +50,22 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
               );
             }),
           ),
+
           SizedBox(height: 30),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                displayItems = specialties.toList();
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder:
+                      (context) =>
+                          modalBottomSheetSpecialty(context, displayItems),
+                );
+              },
               style: ButtonStyle(
                 padding: WidgetStateProperty.all(
                   EdgeInsets.symmetric(vertical: 12),
@@ -79,4 +91,123 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
       ),
     );
   }
+}
+
+Widget modalBottomSheetSpecialty(
+  BuildContext context,
+  List<Map<String, String>> displayItems,
+) {
+  return Stack(
+    clipBehavior: Clip.none,
+    alignment: Alignment.topCenter,
+    children: [
+      Container(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.7,
+        ),
+        padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 14),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Icon(
+                      Icons.close,
+                      size: 24,
+                      color: GlobalColors.textColor,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Tất cả chuyên khoa',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  Opacity(
+                    opacity: 0,
+                    child: Icon(
+                      Icons.exit_to_app,
+                      size: 24,
+                      color: GlobalColors.textColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: List.generate((displayItems.length / 4).ceil(), (
+                    rowIndex,
+                  ) {
+                    int startIndex = rowIndex * 4;
+                    int endIndex = (startIndex + 4).clamp(
+                      0,
+                      displayItems.length,
+                    );
+                    final rowItems = displayItems.sublist(startIndex, endIndex);
+
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        bottom:
+                            rowIndex < (displayItems.length / 4).ceil() - 1
+                                ? 30
+                                : 0,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children:
+                            rowItems.map((item) {
+                              return FeatureItem(
+                                width: 55,
+                                height: 55,
+                                widthSizedBox: 85,
+                                title: item['title']!,
+                                imagePath: item['image']!,
+                              );
+                            }).toList(),
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+
+      Positioned(
+        top: -14,
+        left: 0,
+        right: 0,
+        child: Center(
+          child: Container(
+            width: 45,
+            height: 5,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
 }
