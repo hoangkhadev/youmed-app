@@ -28,27 +28,29 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
             title: 'Khám theo chuyên khoa',
           ),
           SizedBox(height: 30),
-          Column(
-            children: List.generate(2, (rowIndex) {
-              int startIndex = rowIndex * 4;
-              return Padding(
-                padding: EdgeInsets.only(bottom: rowIndex < 1 ? 30 : 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: List.generate(4, (colIndex) {
-                    int itemIndex = startIndex + colIndex;
-                    final item = displayItems[itemIndex];
-                    return FeatureItem(
-                      width: 55,
-                      height: 55,
-                      widthSizedBox: 90,
-                      title: item['title']!,
-                      imagePath: item['image']!,
-                    );
-                  }),
-                ),
-              );
-            }),
+          FittedBox(
+            child: Column(
+              children: List.generate(2, (rowIndex) {
+                int startIndex = rowIndex * 4;
+                return Padding(
+                  padding: EdgeInsets.only(bottom: rowIndex < 1 ? 30 : 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(4, (colIndex) {
+                      int itemIndex = startIndex + colIndex;
+                      final item = displayItems[itemIndex];
+                      return FeatureItem(
+                        width: 55,
+                        height: 55,
+                        widthSizedBox: 90,
+                        title: item['title']!,
+                        imagePath: item['image']!,
+                      );
+                    }),
+                  ),
+                );
+              }),
+            ),
           ),
 
           SizedBox(height: 30),

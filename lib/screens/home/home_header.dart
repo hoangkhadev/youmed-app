@@ -4,6 +4,17 @@ import 'package:my_flutter_app/utils/gobal.images.icons.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
+  String getGreeting() {
+    final hour = DateTime.now().hour;
+
+    if (hour >= 5 && hour < 11) {
+      return 'Buổi sáng tốt lành!';
+    } else if (hour >= 11 && hour < 18) {
+      return 'Buổi chiều rực rỡ!';
+    } else {
+      return 'Buổi tối an lành!';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +43,7 @@ class HomeHeader extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Buổi chiều rực rỡ!',
+                          getGreeting(),
                           style: TextStyle(
                             color: GlobalColors.whiteColor,
                             fontSize: 14,
@@ -63,7 +74,7 @@ class HomeHeader extends StatelessWidget {
 
             /* Header Search */
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
                 color: GlobalColors.whiteColor,
                 borderRadius: BorderRadius.circular(100),
@@ -72,16 +83,20 @@ class HomeHeader extends StatelessWidget {
                 children: [
                   Image.asset(
                     GlobalImageIcons.searchIcon,
-                    width: 18,
-                    height: 18,
+                    width: 16,
+                    height: 16,
                   ),
                   SizedBox(width: 10),
-                  Text(
-                    'Tên bác sĩ, triệu chứng bệnh, chuyên khoa...',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[600],
-                      fontWeight: FontWeight.w400,
+                  Expanded(
+                    child: Text(
+                      'Tên bác sĩ, triệu chứng bệnh, chuyên khoa, bệnh viện, bệnh viện',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey[600],
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
                 ],
