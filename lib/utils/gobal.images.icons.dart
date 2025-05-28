@@ -2,7 +2,9 @@ class GlobalImageIcons {
   static String iconPath = 'assets/images/icons';
   static String imagePath = 'assets/images';
 
-  static String logo = '$iconPath/logo.png';
+  static String logo = '$imagePath/logo.png';
+  static String authLogo = '$imagePath/auth_logo.png';
+
   static String userIcon = '$iconPath/user.png';
   static String notificationIcon = '$iconPath/notification-bell.png';
   static String searchIcon = '$iconPath/search.png';

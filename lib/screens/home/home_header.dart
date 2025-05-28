@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_flutter_app/screens/auth/login_screen.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/utils/gobal.images.icons.dart';
 
@@ -30,38 +31,43 @@ class HomeHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  children: [
-                    Image.asset(
-                      GlobalImageIcons.userIcon,
-                      width: 24,
-                      height: 24,
-                    ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, LoginScreen.id);
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        GlobalImageIcons.userIcon,
+                        width: 24,
+                        height: 24,
+                      ),
 
-                    SizedBox(width: 10),
+                      SizedBox(width: 10),
 
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          getGreeting(),
-                          style: GoogleFonts.nunito(
-                            color: GlobalColors.whiteColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            getGreeting(),
+                            style: GoogleFonts.nunito(
+                              color: GlobalColors.whiteColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                            ),
                           ),
-                        ),
-                        Text(
-                          'Đăng ký / Đăng nhập',
-                          style: GoogleFonts.nunito(
-                            color: GlobalColors.whiteColor,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
+                          Text(
+                            'Đăng ký / Đăng nhập',
+                            style: GoogleFonts.nunito(
+                              color: GlobalColors.whiteColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
 
                 Image.asset(
