@@ -8,6 +8,8 @@ class GlobalImageIcons {
   static String searchIcon = '$iconPath/search.png';
   static String specialtyBagIcon = '$iconPath/specialty_bag.png';
   static String medicalStarIcon = '$iconPath/medical-star.png';
+  static String hospitalHeadingIcon = '$iconPath/hospital_heading.png';
+  static String clinicIcon = '$iconPath/clinic.png';
 
   /* Banner */
   static String banner1 = '$imagePath/banner/banner1.png';
@@ -27,6 +29,30 @@ class GlobalImageIcons {
   static String doctor8 = '$imagePath/doctor/doctor8.png';
   static String doctor9 = '$imagePath/doctor/doctor9.png';
   static String doctor10 = '$imagePath/doctor/doctor10.png';
+
+  /* Hospital */
+  static String rangHamMat = '$imagePath/hospital/rang-ham-mat.png';
+  static String yHocCoTruyen = '$imagePath/hospital/y-hoc-co-truyen.png';
+  static String leVanThinh = '$imagePath/hospital/le-van-thinh.png';
+  static String quan4 = '$imagePath/hospital/quan-4.png';
+  static String quanY175 = '$imagePath/hospital/quan-y-175.png';
+  static String ungBuou = '$imagePath/hospital/ung-buou.png';
+  static String taiMuiHong = '$imagePath/hospital/tai-mui-hong.png';
+  static String binhTan = '$imagePath/hospital/binh-tan.png';
+  static String anBinh = '$imagePath/hospital/an-binh.png';
+  static String nhaBe = '$imagePath/hospital/nha-be.png';
+
+  /*Clinic */
+  static String helloDoctor = '$imagePath/clinic/hello-doctor.png';
+  static String shine = '$imagePath/clinic/shine.png';
+  static String sanPhuKhoa13 = '$imagePath/clinic/san-phu-khoa-13.png';
+  static String phuSan315 = '$imagePath/clinic/phu-san-315.png';
+  static String simMed = '$imagePath/clinic/sim-medical.png';
+  static String myMy = '$imagePath/clinic/my-my.png';
+  static String nhiDong315 = '$imagePath/clinic/nhi-dong-315.png';
+  static String alma = '$imagePath/clinic/alma.png';
+  static String vnvc = '$imagePath/clinic/vnvc.png';
+  static String longChau = '$imagePath/clinic/long-chau.png';
 
   /* Feature Icon */
   static String doctorIcon = '$iconPath/feature/doctor.png';

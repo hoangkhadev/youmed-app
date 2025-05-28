@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/utils/gobal.images.icons.dart';
 
@@ -33,8 +34,8 @@ class HomeHeader extends StatelessWidget {
                   children: [
                     Image.asset(
                       GlobalImageIcons.userIcon,
-                      width: 28,
-                      height: 28,
+                      width: 24,
+                      height: 24,
                     ),
 
                     SizedBox(width: 10),
@@ -44,17 +45,18 @@ class HomeHeader extends StatelessWidget {
                       children: [
                         Text(
                           getGreeting(),
-                          style: TextStyle(
+                          style: GoogleFonts.nunito(
                             color: GlobalColors.whiteColor,
+                            fontWeight: FontWeight.w600,
                             fontSize: 14,
                           ),
                         ),
                         Text(
                           'Đăng ký / Đăng nhập',
-                          style: TextStyle(
+                          style: GoogleFonts.nunito(
                             color: GlobalColors.whiteColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ],
@@ -64,8 +66,8 @@ class HomeHeader extends StatelessWidget {
 
                 Image.asset(
                   GlobalImageIcons.notificationIcon,
-                  width: 28,
-                  height: 28,
+                  width: 24,
+                  height: 24,
                 ),
               ],
             ),
@@ -92,10 +94,10 @@ class HomeHeader extends StatelessWidget {
                       'Tên bác sĩ, triệu chứng bệnh, chuyên khoa, bệnh viện, bệnh viện',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.w400,
+                      style: GoogleFonts.nunito(
+                        fontSize: 14,
+                        color: GlobalColors.subTextColor,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),

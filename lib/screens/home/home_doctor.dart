@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:my_flutter_app/utils/data.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/utils/gobal.images.icons.dart';
@@ -10,7 +11,7 @@ class HomeDoctorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return  Container(
       color: Colors.white,
       margin: EdgeInsets.only(top: 12),
       padding: EdgeInsets.all(12),
@@ -57,8 +58,8 @@ Widget doctorItem(String avatarUrl, String name) {
       SizedBox(height: 6),
       Text(
         'Bác sĩ $name',
-        style: TextStyle(
-          fontWeight: FontWeight.normal,
+        style: GoogleFonts.nunito(
+          fontWeight: FontWeight.w700,
           fontSize: 14,
           color: GlobalColors.textColor,
         ),
