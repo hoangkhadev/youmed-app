@@ -7,6 +7,7 @@ class GlobalImageIcons {
   static String notificationIcon = '$iconPath/notification-bell.png';
   static String searchIcon = '$iconPath/search.png';
   static String specialtyBagIcon = '$iconPath/specialty_bag.png';
+  static String medicalStarIcon = '$iconPath/medical-star.png';
 
   /* Banner */
   static String banner1 = '$imagePath/banner/banner1.png';
@@ -14,6 +15,18 @@ class GlobalImageIcons {
   static String banner3 = '$imagePath/banner/banner3.png';
   static String banner4 = '$imagePath/banner/banner4.png';
   static String banner5 = '$imagePath/banner/banner5.png';
+
+  /*Doctor */
+  static String doctor1 = '$imagePath/doctor/doctor1.png';
+  static String doctor2 = '$imagePath/doctor/doctor2.png';
+  static String doctor3 = '$imagePath/doctor/doctor3.png';
+  static String doctor4 = '$imagePath/doctor/doctor4.png';
+  static String doctor5 = '$imagePath/doctor/doctor5.png';
+  static String doctor6 = '$imagePath/doctor/doctor6.png';
+  static String doctor7 = '$imagePath/doctor/doctor7.png';
+  static String doctor8 = '$imagePath/doctor/doctor8.png';
+  static String doctor9 = '$imagePath/doctor/doctor9.png';
+  static String doctor10 = '$imagePath/doctor/doctor10.png';
 
   /* Feature Icon */
   static String doctorIcon = '$iconPath/feature/doctor.png';

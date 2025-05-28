@@ -20,7 +20,7 @@ class HeadingTitle extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(iconPath, width: 24, height: 24),

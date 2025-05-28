@@ -1,5 +1,12 @@
 name: my_flutter_app
 description: "A new Flutter project."
+
+# Logo launcher
+flutter_icons:
+  android: true
+  ios: true
+  image_path: 'assets\images\ic_launcher.png'
+
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
@@ -37,6 +44,7 @@ dependencies:
   get: ^4.7.2
   hexcolor: ^3.0.1
   carousel_slider: ^5.0.0
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:
@@ -58,7 +66,6 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
@@ -68,12 +75,26 @@ flutter:
     - assets/images/icons/notification-bell.png
     - assets/images/icons/search.png
     - assets/images/icons/specialty_bag.png
+    - assets/images/icons/medical-star.png
 
+    # Banner image
     - assets/images/banner/banner1.png
     - assets/images/banner/banner2.png
     - assets/images/banner/banner3.png
     - assets/images/banner/banner4.png
     - assets/images/banner/banner5.png
+
+    # Doctor image
+    - assets\images\doctor\doctor1.png
+    - assets\images\doctor\doctor2.png
+    - assets\images\doctor\doctor3.png
+    - assets\images\doctor\doctor4.png
+    - assets\images\doctor\doctor5.png
+    - assets\images\doctor\doctor6.png
+    - assets\images\doctor\doctor7.png
+    - assets\images\doctor\doctor8.png
+    - assets\images\doctor\doctor9.png
+    - assets\images\doctor\doctor10.png
 
     #Feature icon
     - assets/images/icons/feature/doctor.png
