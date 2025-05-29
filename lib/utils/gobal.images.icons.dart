@@ -126,6 +126,14 @@ class GlobalImageIcons {
   static String tamLyIcon = '$iconPath/specialty/tam-ly.png';
   static String thamMyIcon = '$iconPath/specialty/tham-my.png';
   static String daKhoaIcon = '$iconPath/specialty/da-khoa.png';
+  static String hoSoYTeIcon = '$iconPath/account/hosoYTe.png';
+  static String dsQuanTamIcon = '$iconPath/account/heart.png';
+  static String dieuKhoanIcon = '$iconPath/account/exclamation-mark.png';
+  static String nhomUserIcon = '$iconPath/account/user.png';
+  static String chiaSeIcon = '$iconPath/account/share.png';
+  static String hoTroIcon = '$iconPath/account/support.png';
+  static String caiDatIcon = '$iconPath/account/settings.png';
+  static String dangXuatIcon = '$iconPath/account/logout.png';
   static String phucHoiChucNangVatLyTriLieuIcon =
       '$iconPath/specialty/phuc-hoi-chuc-nang-vat-ly-tri-lieu.png';
 }

@@ -185,6 +185,21 @@ flutter:
     - assets/images/icons/specialty/y-hoc-co-truyen.png
     - assets/images/icons/specialty/y-hoc-du-phong.png
     - assets/images/icons/specialty/y-hoc-the-thao.png
+
+    # account icons
+    - assets/images/icons/account/add-contact.png
+    - assets/images/icons/account/copy.png
+    - assets/images/icons/account/exclamation-mark.png
+    - assets/images/icons/account/heart.png
+    - assets/images/icons/account/hosoYTe.png
+    - assets/images/icons/account/logout.png
+    - assets/images/icons/account/man.png
+    - assets/images/icons/account/settings.png
+    - assets/images/icons/account/share.png
+    - assets/images/icons/account/support.png
+    - assets/images/icons/account/userInfo.png
+    - assets/images/icons/account/user.png
+    - assets/images/icons/account/woman.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
