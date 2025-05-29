@@ -16,38 +16,39 @@ class HomeBannerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double height = 200;
+    final double height = 180;
     return Column(
       children: [
         HomeHeader(),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12),
-          child: CarouselSlider(
-            options: CarouselOptions(
-              height: height,
-              viewportFraction: 1.0,
-              enlargeCenterPage: false,
-              autoPlay: true,
-              autoPlayInterval: Duration(seconds: 3),
-              autoPlayAnimationDuration: Duration(milliseconds: 500),
-              autoPlayCurve: Curves.fastOutSlowIn,
-            ),
-            items:
-                imgList
-                    .map(
-                      (item) => ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Center(
-                          child: Image.asset(
-                            item,
-                            fit: BoxFit.contain,
-                            height: height,
-                            width: double.infinity,
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: CarouselSlider(
+              options: CarouselOptions(
+                height: height,
+                viewportFraction: 1.0,
+                enlargeCenterPage: false,
+                autoPlay: true,
+                autoPlayInterval: Duration(seconds: 3),
+                autoPlayAnimationDuration: Duration(milliseconds: 500),
+                autoPlayCurve: Curves.fastOutSlowIn,
+              ),
+              items:
+                  imgList
+                      .map(
+                        (item) => Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
                           ),
+                          width: double.infinity,
+                          height: height,
+                          child: Image.asset(item, fit: BoxFit.cover),
                         ),
-                      ),
-                    )
-                    .toList(),
+                      )
+                      .toList(),
+            ),
           ),
         ),
       ],

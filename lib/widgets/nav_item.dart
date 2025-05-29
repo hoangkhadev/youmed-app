@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 
 class NavItem extends StatelessWidget {
@@ -35,16 +36,16 @@ class NavItem extends StatelessWidget {
             children: [
               Image.asset(
                 isSelected ? imageActivePath : imagePath,
-                width: 22,
-                height: 22,
+                width: 20,
+                height: 20,
               ),
               const SizedBox(height: 4),
               Text(
                 label,
-                style: TextStyle(
+                style: GoogleFonts.nunito(
                   color: color,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 13,
+                  fontWeight: isSelected ? FontWeight.w800 : FontWeight.w700,
                 ),
               ),
             ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 
 class HeadingTitle extends StatelessWidget {
@@ -20,17 +21,17 @@ class HeadingTitle extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(iconPath, width: 24, height: 24),
-          SizedBox(width: 8),
+          Image.asset(iconPath, width: 22, height: 22),
+          SizedBox(width: 6),
           Expanded(
             child: Text(
               title,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
+              style: GoogleFonts.nunito(
+                fontSize: 17,
+                fontWeight: FontWeight.w700,
                 color: GlobalColors.textColor,
               ),
             ),
@@ -39,9 +40,8 @@ class HeadingTitle extends StatelessWidget {
           if (isArrow!)
             Icon(
               Icons.arrow_forward_ios_rounded,
-              size: 20,
-              color: Colors.grey,
-              weight: 5000,
+              size: 18,
+              color: GlobalColors.subTextColor,
             ),
         ],
       ),
