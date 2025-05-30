@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 
 class FeatureItem extends StatelessWidget {
@@ -37,9 +36,8 @@ class FeatureItem extends StatelessWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
-              style: GoogleFonts.nunito(
-                fontSize: fontSize,
-                fontWeight: FontWeight.w600,
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
                 color: GlobalColors.textColor,
               ),
             ),

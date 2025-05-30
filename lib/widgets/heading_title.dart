@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 
 class HeadingTitle extends StatelessWidget {
@@ -29,7 +28,7 @@ class HeadingTitle extends StatelessWidget {
           Expanded(
             child: Text(
               title,
-              style: GoogleFonts.nunito(
+              style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w700,
                 color: GlobalColors.textColor,

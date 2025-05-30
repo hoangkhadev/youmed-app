@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:my_flutter_app/screens/home/home_header.dart';
 import 'package:my_flutter_app/utils/gobal.images.icons.dart';
 
 final List<String> imgList = [
@@ -11,17 +10,16 @@ final List<String> imgList = [
   GlobalImageIcons.banner5,
 ];
 
-class HomeBannerScreen extends StatelessWidget {
-  const HomeBannerScreen({super.key});
+class HomeBanner extends StatelessWidget {
+  const HomeBanner({super.key});
 
   @override
   Widget build(BuildContext context) {
     final double height = 180;
     return Column(
       children: [
-        HomeHeader(),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          padding: EdgeInsets.only(left: 12, top: 10, bottom: 10, right: 12),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: CarouselSlider(

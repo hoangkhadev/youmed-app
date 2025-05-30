@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:another_flushbar/flushbar.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 enum ToastType { error, success, warning }
 
 class Toast {
-  static Future<void> show({
+  static void show({
     required BuildContext context,
     required String message,
     required ToastType type,
     int? duration = 3,
-  }) async {
+  }) {
     Color bgColor;
     Icon icon;
 
@@ -29,7 +28,7 @@ class Toast {
         break;
     }
 
-    final flushbar = Flushbar(
+    Flushbar(
       margin: EdgeInsets.all(12),
       borderRadius: BorderRadius.circular(12),
       backgroundColor: bgColor,
@@ -37,15 +36,13 @@ class Toast {
       duration: Duration(seconds: duration!),
       messageText: Text(
         message,
-        style: GoogleFonts.nunito(
+        style: TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: 14,
           color: Colors.white,
         ),
       ),
       flushbarPosition: FlushbarPosition.TOP, // Hiển thị ở trên đầu
-    );
-
-    await flushbar.show(context);
+    ).show(context);
   }
 }
