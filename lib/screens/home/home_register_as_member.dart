@@ -8,12 +8,9 @@ class HomeRegisterAsMember extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 10, left: 12, right: 12),
-      child: Container(
-        decoration: BoxDecoration(
-          color: GlobalColors.whiteColor,
-          borderRadius: BorderRadius.circular(10),
-        ),
+      padding: EdgeInsets.only(left: 6, right: 6),
+      child: Card(
+        color: Colors.white,
         child: Column(
           children: [
             Padding(

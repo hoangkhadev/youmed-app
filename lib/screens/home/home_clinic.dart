@@ -12,8 +12,8 @@ class HomeClinic extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      margin: EdgeInsets.only(bottom: 10),
-      padding: EdgeInsets.all(12),
+      margin: EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.all(10),
       child: Column(
         children: [
           HeadingTitle(
@@ -21,7 +21,7 @@ class HomeClinic extends StatelessWidget {
             title: 'Phòng khám',
             isArrow: true,
           ),
-          SizedBox(height: 15),
+          SizedBox(height: 20),
           Align(
             alignment: Alignment.centerLeft,
             child: ScrollableScreenWrapper(

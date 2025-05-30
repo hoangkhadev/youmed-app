@@ -20,20 +20,20 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
     return Container(
       color: Colors.white,
       margin: EdgeInsets.only(bottom: 10),
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.all(10),
       child: Column(
         children: [
           HeadingTitle(
             iconPath: GlobalImageIcons.specialtyBagIcon,
             title: 'Khám theo chuyên khoa',
           ),
-          SizedBox(height: 30),
+          SizedBox(height: 20),
           FittedBox(
             child: Column(
               children: List.generate(2, (rowIndex) {
                 int startIndex = rowIndex * 4;
                 return Padding(
-                  padding: EdgeInsets.only(bottom: rowIndex < 1 ? 30 : 0),
+                  padding: EdgeInsets.only(bottom: rowIndex < 1 ? 20 : 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: List.generate(4, (colIndex) {
@@ -53,7 +53,7 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
             ),
           ),
 
-          SizedBox(height: 30),
+          SizedBox(height: 20),
 
           ElevatedButton(
             onPressed: () {
@@ -107,16 +107,16 @@ Widget modalBottomSheetSpecialty(
         constraints: BoxConstraints(
           maxHeight: MediaQuery.of(context).size.height * 0.7,
         ),
-        padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+        padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
         ),
 
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 14),
+              padding: EdgeInsets.symmetric(vertical: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -174,7 +174,7 @@ Widget modalBottomSheetSpecialty(
                       padding: EdgeInsets.only(
                         bottom:
                             rowIndex < (displayItems.length / 4).ceil() - 1
-                                ? 30
+                                ? 20
                                 : 0,
                       ),
                       child: Row(

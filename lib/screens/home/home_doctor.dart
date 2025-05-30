@@ -12,8 +12,8 @@ class HomeDoctor extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      margin: EdgeInsets.only(bottom: 10),
-      padding: EdgeInsets.all(12),
+      margin: EdgeInsets.only(bottom: 8, top: 6),
+      padding: EdgeInsets.all(10),
       child: Column(
         children: [
           HeadingTitle(
@@ -21,7 +21,7 @@ class HomeDoctor extends StatelessWidget {
             title: 'Bác sĩ',
             isArrow: true,
           ),
-          SizedBox(height: 30),
+          SizedBox(height: 20),
           Align(
             alignment: Alignment.centerLeft,
             child: ScrollableScreenWrapper(
