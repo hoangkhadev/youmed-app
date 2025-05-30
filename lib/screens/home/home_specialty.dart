@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:my_flutter_app/utils/data.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/utils/gobal.images.icons.dart';
@@ -20,7 +19,7 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      margin: EdgeInsets.only(top: 12),
+      margin: EdgeInsets.only(bottom: 10),
       padding: EdgeInsets.all(12),
       child: Column(
         children: [
@@ -55,38 +54,38 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
           ),
 
           SizedBox(height: 30),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                displayItems = specialties.toList();
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  backgroundColor: Colors.transparent,
-                  builder:
-                      (context) =>
-                          modalBottomSheetSpecialty(context, displayItems),
-                );
-              },
-              style: ButtonStyle(
-                padding: WidgetStateProperty.all(
-                  EdgeInsets.symmetric(vertical: 12),
-                ),
-                backgroundColor: WidgetStateProperty.all(Colors.white),
-                shape: WidgetStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100),
-                    side: BorderSide(
-                      color: const Color.fromARGB(255, 225, 225, 225),
-                      width: 0.2,
-                    ),
-                  ),
-                ),
+
+          ElevatedButton(
+            onPressed: () {
+              displayItems = specialties.toList();
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder:
+                    (context) =>
+                        modalBottomSheetSpecialty(context, displayItems),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              elevation: 2,
+              minimumSize: Size(double.infinity, 50),
+              foregroundColor: GlobalColors.mainColor,
+              backgroundColor: Colors.white,
+              side: BorderSide(
+                color: const Color.fromARGB(255, 216, 216, 216),
+                width: 0.5,
               ),
-              child: Text(
-                'Xem tất cả các chuyên khoa',
-                style: GoogleFonts.nunito(color: GlobalColors.textColor, fontSize: 14, fontWeight: FontWeight.w700),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+            child: Text(
+              'Xem tất cả các chuyên khoa',
+              style: TextStyle(
+                color: GlobalColors.textColor,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -124,19 +123,24 @@ Widget modalBottomSheetSpecialty(
                 children: [
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
-                    child: Icon(
-                      Icons.close,
-                      size: 22,
-                      color: GlobalColors.textColor,
+                    child: SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: Icon(
+                        Icons.close,
+                        size: 22,
+                        color: GlobalColors.textColor,
+                      ),
                     ),
                   ),
                   Expanded(
                     child: Text(
                       'Tất cả chuyên khoa',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.nunito(
+                      style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w700,
+                        color: GlobalColors.textColor,
                       ),
                     ),
                   ),

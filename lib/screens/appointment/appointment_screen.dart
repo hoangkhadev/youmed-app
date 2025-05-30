@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/widgets/scrollable_screen_wrapper.dart';
 
 class AppointmentScreen extends StatelessWidget {
   const AppointmentScreen({super.key});
-  static final id = 'appointment_screen';
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [Text('Trang Lịch Khám')]);
+    return Scaffold(
+      body: ScrollableScreenWrapper(child: Text('Trang lịch khám')),
+    );
   }
 }

@@ -4,6 +4,7 @@ class GlobalImageIcons {
 
   static String logo = '$imagePath/logo.png';
   static String authLogo = '$imagePath/auth_logo.png';
+  static String crown = '$imagePath/crown.gif';
 
   static String userIcon = '$iconPath/user.png';
   static String notificationIcon = '$iconPath/notification-bell.png';

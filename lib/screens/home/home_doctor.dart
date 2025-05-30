@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:my_flutter_app/utils/data.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/utils/gobal.images.icons.dart';
 import 'package:my_flutter_app/widgets/heading_title.dart';
 import 'package:my_flutter_app/widgets/scrollable_screen_wrapper.dart';
 
-class HomeDoctorScreen extends StatelessWidget {
-  const HomeDoctorScreen({super.key});
+class HomeDoctor extends StatelessWidget {
+  const HomeDoctor({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return Container(
       color: Colors.white,
-      margin: EdgeInsets.only(top: 12),
+      margin: EdgeInsets.only(bottom: 10),
       padding: EdgeInsets.all(12),
       child: Column(
         children: [
@@ -58,7 +57,7 @@ Widget doctorItem(String avatarUrl, String name) {
       SizedBox(height: 6),
       Text(
         'Bác sĩ $name',
-        style: GoogleFonts.nunito(
+        style: TextStyle(
           fontWeight: FontWeight.w700,
           fontSize: 14,
           color: GlobalColors.textColor,
