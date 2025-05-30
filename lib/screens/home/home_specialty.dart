@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:my_flutter_app/utils/data.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/utils/gobal.images.icons.dart';
@@ -28,27 +29,29 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
             title: 'Khám theo chuyên khoa',
           ),
           SizedBox(height: 30),
-          Column(
-            children: List.generate(2, (rowIndex) {
-              int startIndex = rowIndex * 4;
-              return Padding(
-                padding: EdgeInsets.only(bottom: rowIndex < 1 ? 30 : 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: List.generate(4, (colIndex) {
-                    int itemIndex = startIndex + colIndex;
-                    final item = displayItems[itemIndex];
-                    return FeatureItem(
-                      width: 55,
-                      height: 55,
-                      widthSizedBox: 90,
-                      title: item['title']!,
-                      imagePath: item['image']!,
-                    );
-                  }),
-                ),
-              );
-            }),
+          FittedBox(
+            child: Column(
+              children: List.generate(2, (rowIndex) {
+                int startIndex = rowIndex * 4;
+                return Padding(
+                  padding: EdgeInsets.only(bottom: rowIndex < 1 ? 30 : 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(4, (colIndex) {
+                      int itemIndex = startIndex + colIndex;
+                      final item = displayItems[itemIndex];
+                      return FeatureItem(
+                        width: 55,
+                        height: 55,
+                        widthSizedBox: 90,
+                        title: item['title']!,
+                        imagePath: item['image']!,
+                      );
+                    }),
+                  ),
+                );
+              }),
+            ),
           ),
 
           SizedBox(height: 30),
@@ -75,15 +78,15 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100),
                     side: BorderSide(
-                      color: const Color.fromARGB(255, 228, 225, 225),
-                      width: 1,
+                      color: const Color.fromARGB(255, 225, 225, 225),
+                      width: 0.2,
                     ),
                   ),
                 ),
               ),
               child: Text(
                 'Xem tất cả các chuyên khoa',
-                style: TextStyle(color: GlobalColors.textColor, fontSize: 14),
+                style: GoogleFonts.nunito(color: GlobalColors.textColor, fontSize: 14, fontWeight: FontWeight.w700),
               ),
             ),
           ),
@@ -123,7 +126,7 @@ Widget modalBottomSheetSpecialty(
                     onTap: () => Navigator.pop(context),
                     child: Icon(
                       Icons.close,
-                      size: 24,
+                      size: 22,
                       color: GlobalColors.textColor,
                     ),
                   ),
@@ -131,9 +134,9 @@ Widget modalBottomSheetSpecialty(
                     child: Text(
                       'Tất cả chuyên khoa',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+                      style: GoogleFonts.nunito(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),

@@ -1,5 +1,6 @@
 import 'package:my_flutter_app/screens/account/account_screen.dart';
 import 'package:my_flutter_app/screens/appointment/appointment_screen.dart';
+import 'package:my_flutter_app/screens/auth/login_screen.dart';
 import 'package:my_flutter_app/screens/home/home_screen.dart';
 import 'package:my_flutter_app/screens/message/message_screen.dart';
 import 'package:my_flutter_app/screens/splash/splash.screen.dart';
@@ -11,5 +12,6 @@ class AppRoutes {
     AccountScreen.id: (context) => const AccountScreen(),
     MessageScreen.id: (context) => const MessageScreen(),
     AppointmentScreen.id: (context) => const AppointmentScreen(),
+    LoginScreen.id: (context) => const LoginScreen(),
   };
 }

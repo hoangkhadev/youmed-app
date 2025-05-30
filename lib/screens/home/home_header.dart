@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:my_flutter_app/screens/auth/login_screen.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/utils/gobal.images.icons.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
+  String getGreeting() {
+    final hour = DateTime.now().hour;
+
+    if (hour >= 5 && hour < 11) {
+      return 'Buổi sáng tốt lành!';
+    } else if (hour >= 11 && hour < 18) {
+      return 'Buổi chiều rực rỡ!';
+    } else {
+      return 'Buổi tối an lành!';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,43 +31,49 @@ class HomeHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  children: [
-                    Image.asset(
-                      GlobalImageIcons.userIcon,
-                      width: 28,
-                      height: 28,
-                    ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, LoginScreen.id);
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        GlobalImageIcons.userIcon,
+                        width: 24,
+                        height: 24,
+                      ),
 
-                    SizedBox(width: 10),
+                      SizedBox(width: 10),
 
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Buổi chiều rực rỡ!',
-                          style: TextStyle(
-                            color: GlobalColors.whiteColor,
-                            fontSize: 14,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            getGreeting(),
+                            style: GoogleFonts.nunito(
+                              color: GlobalColors.whiteColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                            ),
                           ),
-                        ),
-                        Text(
-                          'Đăng ký / Đăng nhập',
-                          style: TextStyle(
-                            color: GlobalColors.whiteColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                          Text(
+                            'Đăng ký / Đăng nhập',
+                            style: GoogleFonts.nunito(
+                              color: GlobalColors.whiteColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
 
                 Image.asset(
                   GlobalImageIcons.notificationIcon,
-                  width: 28,
-                  height: 28,
+                  width: 24,
+                  height: 24,
                 ),
               ],
             ),
@@ -63,7 +82,7 @@ class HomeHeader extends StatelessWidget {
 
             /* Header Search */
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
                 color: GlobalColors.whiteColor,
                 borderRadius: BorderRadius.circular(100),
@@ -72,16 +91,20 @@ class HomeHeader extends StatelessWidget {
                 children: [
                   Image.asset(
                     GlobalImageIcons.searchIcon,
-                    width: 18,
-                    height: 18,
+                    width: 16,
+                    height: 16,
                   ),
                   SizedBox(width: 10),
-                  Text(
-                    'Tên bác sĩ, triệu chứng bệnh, chuyên khoa...',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[600],
-                      fontWeight: FontWeight.w400,
+                  Expanded(
+                    child: Text(
+                      'Tên bác sĩ, triệu chứng bệnh, chuyên khoa, bệnh viện, bệnh viện',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.nunito(
+                        fontSize: 14,
+                        color: GlobalColors.subTextColor,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],

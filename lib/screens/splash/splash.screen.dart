@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/screens/home/home_screen.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
+import 'package:my_flutter_app/utils/gobal.images.icons.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -30,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
           Padding(
             padding: EdgeInsets.only(left: 35),
-            child: Image.asset('assets/images/logo.png'),
+            child: Image.asset(GlobalImageIcons.logo),
           ),
 
           Transform.translate(
