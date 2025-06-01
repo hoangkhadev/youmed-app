@@ -135,6 +135,12 @@ class GlobalImageIcons {
   static String hoTroIcon = '$iconPath/account/support.png';
   static String caiDatIcon = '$iconPath/account/settings.png';
   static String dangXuatIcon = '$iconPath/account/logout.png';
+  static String addInfo = '$iconPath/account/add-contact.png';
+  static String detailInfo = '$iconPath/account/hoSoUser.png';
+  static String writeNote = '$iconPath/account/write.png';
+  static String scan = '$iconPath/account/scan.png';
+  static String userInfo = '$iconPath/account/userInfo.png';
+  static String copy = '$iconPath/account/copy.png';
   static String phucHoiChucNangVatLyTriLieuIcon =
       '$iconPath/specialty/phuc-hoi-chuc-nang-vat-ly-tri-lieu.png';
 }

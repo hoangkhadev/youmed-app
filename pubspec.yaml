@@ -202,6 +202,9 @@ flutter:
     - assets/images/icons/account/userInfo.png
     - assets/images/icons/account/user.png
     - assets/images/icons/account/woman.png
+    - assets/images/icons/account/hoSoUser.png
+    - assets/images/icons/account/scan.png
+    - assets/images/icons/account/write.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

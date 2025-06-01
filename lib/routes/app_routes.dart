@@ -10,6 +10,6 @@ class AppRoutes {
     MainScreen.id: (context) {
       final args = ModalRoute.of(context)?.settings.arguments as int?;
       return MainScreen(currentIndex: args ?? 0);
-    },    
+    },
   };
 }

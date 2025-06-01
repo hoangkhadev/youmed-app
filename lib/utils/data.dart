@@ -291,13 +291,3 @@ final List<Map<String, String>> clinics = [
     'address': 'Trên toàn quốc',
   },
 ];
-final List<Map<String, String>> account = [
-  {'title': 'Hồ sơ y tế', 'image': GlobalImageIcons.hoSoYTeIcon},
-  {'title': 'Danh sách quan tâm', 'image': GlobalImageIcons.dsQuanTamIcon},
-  {'title': 'Điều khoản và Quy định', 'image': GlobalImageIcons.dieuKhoanIcon},
-  {'title': 'Tham gia cộng đồng', 'image': GlobalImageIcons.nhomUserIcon},
-  {'title': 'Chia sẻ ứng dụng', 'image': GlobalImageIcons.chiaSeIcon},
-  {'title': 'Liên hệ & hỗ trợ', 'image': GlobalImageIcons.hoTroIcon},
-  {'title': 'Cài đặt', 'image': GlobalImageIcons.caiDatIcon},
-  {'title': 'Đăng xuất', 'image': GlobalImageIcons.dangXuatIcon},
-];
