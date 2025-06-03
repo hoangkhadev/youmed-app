@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_app/screens/auth/login_screen.dart';
-import 'package:my_flutter_app/screens/main_screen.dart';
-import 'package:my_flutter_app/screens/splash/splash.screen.dart';
+
+import '../../screens/auth/login_screen.dart';
+import '../../screens/main_screen.dart';
+import '../../screens/splash/splash.screen.dart';
 
 class AppRoutes {
   static final routes = {
@@ -10,6 +11,6 @@ class AppRoutes {
     MainScreen.id: (context) {
       final args = ModalRoute.of(context)?.settings.arguments as int?;
       return MainScreen(currentIndex: args ?? 0);
-    },    
+    },
   };
 }

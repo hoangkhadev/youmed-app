@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_app/utils/data.dart';
-import 'package:my_flutter_app/widgets/feature_item.dart';
+
+import '../../utils/data.dart';
+import '../../widgets/feature_item.dart';
 
 class HomeFeature extends StatelessWidget {
   const HomeFeature({super.key});

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_app/utils/data.dart';
-import 'package:my_flutter_app/utils/global.colors.dart';
-import 'package:my_flutter_app/utils/gobal.images.icons.dart';
-import 'package:my_flutter_app/widgets/feature_item.dart';
-import 'package:my_flutter_app/widgets/heading_title.dart';
+
+import '../../utils/data.dart';
+import '../../utils/global.colors.dart';
+import '../../utils/gobal.images.icons.dart';
+import '../../widgets/feature_item.dart';
+import '../../widgets/heading_title.dart';
 
 class HomeSpecialty extends StatefulWidget {
   const HomeSpecialty({super.key});
