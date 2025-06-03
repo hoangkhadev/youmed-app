@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_app/providers/auth_provider.dart';
-import 'package:my_flutter_app/screens/splash/splash.screen.dart';
-import 'package:my_flutter_app/routes/app_routes.dart';
-import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/auth_provider.dart';
+import '../screens/splash/splash.screen.dart';
+import '../routes/app_routes.dart';
+import '../utils/global.colors.dart';
 
 void main() {
   runApp(

@@ -1,4 +1,4 @@
-import 'package:my_flutter_app/models/entities/user_entity.dart';
+import '../../models/entities/user_entity.dart';
 
 class LoginResponse {
   final bool success;

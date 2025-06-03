@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_app/widgets/scrollable_screen_wrapper.dart';
+
+import '../../widgets/scrollable_screen_wrapper.dart';
 
 class MessageScreen extends StatelessWidget {
   const MessageScreen({super.key});

@@ -1,4 +1,4 @@
-import 'package:my_flutter_app/models/work_schedule.model.dart';
+import '../models/work_schedule.model.dart';
 
 class Doctor {
   final String id;

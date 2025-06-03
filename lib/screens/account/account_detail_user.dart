@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_app/utils/global.colors.dart';
-import 'package:my_flutter_app/utils/gobal.images.icons.dart';
+
+import '../../utils/global.colors.dart';
+import '../../utils/gobal.images.icons.dart';
 
 class AccountDetailInfo extends StatefulWidget {
   const AccountDetailInfo({super.key});

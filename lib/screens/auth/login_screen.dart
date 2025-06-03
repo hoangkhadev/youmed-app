@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_app/models/request/login_request.dart';
-import 'package:my_flutter_app/providers/auth_provider.dart';
-import 'package:my_flutter_app/screens/main_screen.dart';
-import 'package:my_flutter_app/utils/global.colors.dart';
-import 'package:my_flutter_app/utils/gobal.images.icons.dart';
-import 'package:my_flutter_app/widgets/overlay.dart';
-import 'package:my_flutter_app/widgets/toast.dart';
 import 'package:provider/provider.dart';
+
+import '../../models/request/login_request.dart';
+import '../../providers/auth_provider.dart';
+import '../../screens/main_screen.dart';
+import '../../utils/global.colors.dart';
+import '../../utils/gobal.images.icons.dart';
+import '../../widgets/overlay.dart';
+import '../../widgets/toast.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

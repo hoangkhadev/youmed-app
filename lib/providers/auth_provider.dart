@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_app/models/entities/user_entity.dart';
-import 'package:my_flutter_app/models/request/login_request.dart';
-import 'package:my_flutter_app/models/response/login_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../models/entities/user_entity.dart';
+import '../../models/request/login_request.dart';
+import '../../models/response/login_response.dart';
 
 class AuthProvider extends ChangeNotifier {
   UserEntity? _currentUser;

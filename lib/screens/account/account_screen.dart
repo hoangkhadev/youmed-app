@@ -4,7 +4,7 @@ import '../../utils/global.colors.dart';
 import '../../utils/gobal.images.icons.dart';
 
 import './account_info.dart';
-import './account_detailUser.dart';
+import 'account_detail_user.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
