@@ -4,7 +4,7 @@ import 'package:my_flutter_app/screens/appointment/appointment_screen.dart';
 import 'package:my_flutter_app/screens/home/home_body.dart';
 import 'package:my_flutter_app/screens/message/message_screen.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
-import 'package:my_flutter_app/utils/gobal.images.icons.dart';
+import 'package:my_flutter_app/utils/global.images.icons.dart';
 
 import 'package:my_flutter_app/widgets/nav_item.dart';
 import 'package:my_flutter_app/widgets/scrollable_screen_wrapper.dart';

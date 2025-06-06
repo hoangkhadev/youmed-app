@@ -68,6 +68,7 @@ flutter:
     - assets/images/icons/notification-bell.png
     - assets/images/icons/search.png
     - assets/images/icons/specialty_bag.png
+    - assets/images/icons/message.png
 
     - assets/images/banner/banner1.png
     - assets/images/banner/banner2.png

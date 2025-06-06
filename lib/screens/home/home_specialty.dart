@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/utils/data.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
-import 'package:my_flutter_app/utils/gobal.images.icons.dart';
+import 'package:my_flutter_app/utils/global.images.icons.dart';
 import 'package:my_flutter_app/widgets/feature_item.dart';
 import 'package:my_flutter_app/widgets/heading_title.dart';
 
@@ -10,6 +10,11 @@ class HomeSpecialty extends StatefulWidget {
 
   @override
   State<HomeSpecialty> createState() => _HomeSpecialtyState();
+}
+
+class ForgotPasswordSheet extends StatefulWidget {
+  @override
+  State<ForgotPasswordSheet> createState() => _ForgotPasswordSheetState();
 }
 
 class _HomeSpecialtyState extends State<HomeSpecialty> {
@@ -53,7 +58,18 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(25),
+                    ),
+                  ),
+                  builder: (context) => ForgotPasswordSheet(),
+                );
+              },
               style: ButtonStyle(
                 padding: WidgetStateProperty.all(
                   EdgeInsets.symmetric(vertical: 12),
@@ -76,6 +92,56 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _ForgotPasswordSheetState extends State<ForgotPasswordSheet> {
+  final emailController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: MediaQuery.of(context).viewInsets, // For keyboard
+      child: Container(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 40,
+              height: 5,
+              margin: EdgeInsets.only(bottom: 20),
+              decoration: BoxDecoration(
+                color: Colors.grey[400],
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            Column(
+              children: List.generate(2, (rowIndex) {
+                int startIndex = rowIndex * 2;
+                return Padding(
+                  padding: EdgeInsets.only(bottom: rowIndex < 1 ? 35 : 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: List.generate(4, (colIndex) {
+                      int itemIndex = startIndex + colIndex;
+                      final item = specialties[itemIndex];
+                      return FeatureItem(
+                        width: 55,
+                        height: 55,
+                        widthSizedBox: 90,
+                        title: item['title']!,
+                        imagePath: item['image']!,
+                      );
+                    }),
+                  ),
+                );
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }

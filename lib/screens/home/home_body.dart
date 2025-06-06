@@ -9,7 +9,7 @@ class HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [HomeBannerScreen(), HomeFeatureScrenn(), HomeSpecialty()],
+      children: [HomeBannerScreen(), HomeFeatureScreen(), HomeSpecialty()],
     );
   }
 }

@@ -3,8 +3,8 @@ import 'package:my_flutter_app/utils/data.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/widgets/feature_item.dart';
 
-class HomeFeatureScrenn extends StatelessWidget {
-  const HomeFeatureScrenn({super.key});
+class HomeFeatureScreen extends StatelessWidget {
+  const HomeFeatureScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

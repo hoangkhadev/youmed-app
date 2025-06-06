@@ -7,6 +7,7 @@ class GlobalImageIcons {
   static String notificationIcon = '$iconPath/notification-bell.png';
   static String searchIcon = '$iconPath/search.png';
   static String specialtyBagIcon = '$iconPath/specialty_bag.png';
+  static String message = '$iconPath/message.png';
 
   /* Banner */
   static String banner1 = '$imagePath/banner/banner1.png';
