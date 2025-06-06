@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../widgets/scrollable_screen_wrapper.dart';
+
 class MessageScreen extends StatelessWidget {
   const MessageScreen({super.key});
-  static final id = 'message_screen';
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [Text('Trang Tin Nhắn')]);
+    return Scaffold(
+      body: ScrollableScreenWrapper(child: Text('Trang message')),
+    );
   }
 }

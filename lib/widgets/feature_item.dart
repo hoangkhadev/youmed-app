@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_app/utils/global.colors.dart';
+
+import '../../utils/global.colors.dart';
 
 class FeatureItem extends StatelessWidget {
   final String title;
@@ -33,9 +34,10 @@ class FeatureItem extends StatelessWidget {
             width: widthSizedBox,
             child: Text(
               title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: fontSize,
                 fontWeight: FontWeight.w500,
                 color: GlobalColors.textColor,
               ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_app/screens/home/home_screen.dart';
-import 'package:my_flutter_app/utils/global.colors.dart';
+
+import '../../screens/main_screen.dart';
+import '../../utils/global.colors.dart';
+import '../../utils/global.images.icons.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Future.delayed(Duration(seconds: 5), () {
       if (!mounted) return;
-      Navigator.pushReplacementNamed(context, HomeScreen.id);
+      Navigator.pushReplacementNamed(context, MainScreen.id);
     });
   }
 
@@ -30,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
           Padding(
             padding: EdgeInsets.only(left: 35),
-            child: Image.asset('assets/images/logo.png'),
+            child: Image.asset(GlobalImageIcons.logo),
           ),
 
           Transform.translate(
