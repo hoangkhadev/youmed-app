@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../utils/global.colors.dart';
+import 'package:my_flutter_app/utils/global.colors.dart';
 
 class HeadingTitle extends StatelessWidget {
   final String iconPath;

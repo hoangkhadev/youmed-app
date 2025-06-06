@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/global.colors.dart';
-import '../../utils/gobal.images.icons.dart';
+import 'package:my_flutter_app/utils/global.colors.dart';
+import 'package:my_flutter_app/utils/global.images.icons.dart';
+import 'package:my_flutter_app/widgets/custom_card.dart';
 
 class HomeRegisterAsMember extends StatelessWidget {
   const HomeRegisterAsMember({super.key});
@@ -10,8 +11,7 @@ class HomeRegisterAsMember extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 6, right: 6),
-      child: Card(
-        color: Colors.white,
+      child: CustomCard(
         child: Column(
           children: [
             Padding(
@@ -37,7 +37,7 @@ class HomeRegisterAsMember extends StatelessWidget {
                         SizedBox(height: 8),
 
                         Text(
-                          'Trờ thành thành viên để trải nghiệm những tiện ích chăm sóc sức khỏe từ YouMed.',
+                          'Trờ thành thành viên để trải nghiệm những tiện ích chăm sóc sức khỏe từ Medical Booking.',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,

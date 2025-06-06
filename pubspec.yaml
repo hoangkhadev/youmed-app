@@ -49,6 +49,8 @@ dependencies:
   provider: ^6.1.5
   shared_preferences: ^2.5.3
   intl: ^0.20.2
+  http: ^1.4.0
+  flutter_secure_storage: ^9.2.4
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +82,9 @@ flutter:
     - assets/images/icons/medical-star.png
     - assets/images/icons/hospital_heading.png
     - assets/images/icons/clinic.png
+    - assets/images/icons/radio-button.png
+    - assets/images/icons/radio-button-checked.png
+    - assets/images/icons/calendar.png
 
     # Banner image
     - assets/images/banner/banner1.png

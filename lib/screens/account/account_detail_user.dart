@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../utils/global.colors.dart';
-import '../../utils/gobal.images.icons.dart';
+import 'package:my_flutter_app/providers/auth_provider.dart';
+import 'package:my_flutter_app/utils/global.colors.dart';
+import 'package:my_flutter_app/utils/global.images.icons.dart';
 
 class AccountDetailInfo extends StatefulWidget {
+  static final id = 'account_detail_user_screen';
+
   const AccountDetailInfo({super.key});
   @override
   State<AccountDetailInfo> createState() => _AccountDetailInfoState();
@@ -12,18 +16,20 @@ class AccountDetailInfo extends StatefulWidget {
 class _AccountDetailInfoState extends State<AccountDetailInfo> {
   @override
   Widget build(BuildContext context) {
+    final auth = context.watch<AuthProvider>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Hồ sơ của bạn',
-          style: TextStyle(fontWeight: FontWeight.w600),
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
         ),
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back_ios_outlined),
+          icon: Icon(Icons.arrow_back_ios_outlined, size: 16),
         ),
         foregroundColor: Colors.white,
         backgroundColor: GlobalColors.mainColor,
@@ -76,17 +82,22 @@ class _AccountDetailInfoState extends State<AccountDetailInfo> {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: ListTile(
               contentPadding: EdgeInsets.zero,
-              title: Text('THẺ CĂN CƯỚC CÔNG DÂN'),
+              title: Text(
+                'THẺ CĂN CƯỚC CÔNG DÂN',
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+              ),
               trailing: SizedBox(
                 height: 25,
-                width: 100,
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: GlobalColors.mainColor,
                     foregroundColor: GlobalColors.whiteColor,
                   ),
-                  child: Text('Cập nhật', style: TextStyle(fontSize: 12)),
+                  child: Text(
+                    'Cập nhật',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                  ),
                 ),
               ),
             ),
@@ -96,7 +107,7 @@ class _AccountDetailInfoState extends State<AccountDetailInfo> {
             child: infoItem(
               'Mã bệnh nhân',
               context,
-              'YMP252218854',
+              auth.currentUser!.id,
               showTrailing: true,
             ),
           ),
@@ -123,7 +134,7 @@ class _AccountDetailInfoState extends State<AccountDetailInfo> {
             child: infoItem(
               'Họ tên',
               context,
-              'Nguyễn Phú Tài',
+              auth.currentUser!.fullName,
               showTrailing: false,
             ),
           ),
@@ -132,7 +143,7 @@ class _AccountDetailInfoState extends State<AccountDetailInfo> {
             child: infoItem(
               'Số điện thoại',
               context,
-              '0788655673',
+              auth.currentUser!.phone,
               showTrailing: false,
             ),
           ),
@@ -141,38 +152,25 @@ class _AccountDetailInfoState extends State<AccountDetailInfo> {
             child: infoItem(
               'Ngày sinh',
               context,
-              '21/01/2004',
+              auth.currentUser!.dobFormated,
               showTrailing: false,
             ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            child: infoItem('Giới tính', context, 'Nam', showTrailing: false),
+            child: infoItem(
+              'Giới tính',
+              context,
+              auth.currentUser!.gender == 'Male' ? 'Name' : 'Nữ',
+              showTrailing: false,
+            ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: infoItem(
               'Địa chỉ',
               context,
-              'Chưa cập nhật',
-              showTrailing: false,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: infoItem(
-              'Dân tộc',
-              context,
-              'Chưa cập nhật',
-              showTrailing: false,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: infoItem(
-              'Nghề nghiệp',
-              context,
-              'Chưa cập nhật',
+              auth.currentUser!.address,
               showTrailing: false,
             ),
           ),
@@ -181,7 +179,7 @@ class _AccountDetailInfoState extends State<AccountDetailInfo> {
             child: infoItem(
               'Email',
               context,
-              'nphutai49@gmail.com',
+              auth.currentUser!.email,
               showTrailing: false,
             ),
           ),
@@ -189,10 +187,12 @@ class _AccountDetailInfoState extends State<AccountDetailInfo> {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: ListTile(
               contentPadding: EdgeInsets.zero,
-              title: Text('THÔNG TIN BẢO HIỂM Y TẾ'),
+              title: Text(
+                'THÔNG TIN BẢO HIỂM Y TẾ',
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+              ),
               trailing: SizedBox(
                 height: 25,
-                width: 100,
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/data.dart';
-import '../../utils/global.colors.dart';
-import '../../utils/gobal.images.icons.dart';
-import '../../widgets/heading_title.dart';
-import '../../widgets/scrollable_screen_wrapper.dart';
+import 'package:my_flutter_app/utils/data.dart';
+import 'package:my_flutter_app/utils/global.colors.dart';
+import 'package:my_flutter_app/utils/global.images.icons.dart';
+import 'package:my_flutter_app/widgets/heading_title.dart';
+import 'package:my_flutter_app/widgets/scrollable_screen_wrapper.dart';
 
 class HomeClinic extends StatelessWidget {
   const HomeClinic({super.key});
