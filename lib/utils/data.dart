@@ -1,4 +1,4 @@
-import 'package:my_flutter_app/utils/gobal.images.icons.dart';
+import 'package:my_flutter_app/utils/global.images.icons.dart';
 
 final List<Map<String, String>> features = [
   {'title': 'Đặt khám bác sĩ', 'image': GlobalImageIcons.doctorIcon},

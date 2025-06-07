@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:my_flutter_app/screens/account/account_screen.dart';
 import 'package:my_flutter_app/screens/appointment/appointment_screen.dart';
 import 'package:my_flutter_app/screens/home/home_screen.dart';
 import 'package:my_flutter_app/screens/message/message_screen.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
-import 'package:my_flutter_app/utils/gobal.images.icons.dart';
+import 'package:my_flutter_app/utils/global.images.icons.dart';
 
 class MainScreen extends StatefulWidget {
   final int currentIndex;

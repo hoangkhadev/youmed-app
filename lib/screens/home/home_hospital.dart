@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:my_flutter_app/utils/data.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
-import 'package:my_flutter_app/utils/gobal.images.icons.dart';
+import 'package:my_flutter_app/utils/global.images.icons.dart';
 import 'package:my_flutter_app/widgets/heading_title.dart';
 import 'package:my_flutter_app/widgets/scrollable_screen_wrapper.dart';
 
@@ -12,8 +13,9 @@ class HomeHospital extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      margin: EdgeInsets.only(bottom: 10),
-      padding: EdgeInsets.all(12),
+      margin: EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.all(10),
+
       child: Column(
         children: [
           HeadingTitle(
@@ -21,7 +23,7 @@ class HomeHospital extends StatelessWidget {
             title: 'Bệnh viện',
             isArrow: true,
           ),
-          SizedBox(height: 15),
+          SizedBox(height: 20),
           Align(
             alignment: Alignment.centerLeft,
             child: ScrollableScreenWrapper(

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:my_flutter_app/utils/data.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
-import 'package:my_flutter_app/utils/gobal.images.icons.dart';
+import 'package:my_flutter_app/utils/global.images.icons.dart';
+
+import 'package:my_flutter_app/widgets/custom_bottom_sheet.dart';
 import 'package:my_flutter_app/widgets/feature_item.dart';
 import 'package:my_flutter_app/widgets/heading_title.dart';
 
@@ -20,20 +23,20 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
     return Container(
       color: Colors.white,
       margin: EdgeInsets.only(bottom: 10),
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.all(10),
       child: Column(
         children: [
           HeadingTitle(
             iconPath: GlobalImageIcons.specialtyBagIcon,
             title: 'Khám theo chuyên khoa',
           ),
-          SizedBox(height: 30),
+          SizedBox(height: 20),
           FittedBox(
             child: Column(
               children: List.generate(2, (rowIndex) {
                 int startIndex = rowIndex * 4;
                 return Padding(
-                  padding: EdgeInsets.only(bottom: rowIndex < 1 ? 30 : 0),
+                  padding: EdgeInsets.only(bottom: rowIndex < 1 ? 20 : 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: List.generate(4, (colIndex) {
@@ -53,18 +56,18 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
             ),
           ),
 
-          SizedBox(height: 30),
+          SizedBox(height: 20),
 
           ElevatedButton(
             onPressed: () {
               displayItems = specialties.toList();
-              showModalBottomSheet(
+              CustomBottomSheet.show(
+                height: 500,
                 context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                builder:
-                    (context) =>
-                        modalBottomSheetSpecialty(context, displayItems),
+                child: modalBottomSheetSpecialty(
+                  context: context,
+                  displayItems: displayItems,
+                ),
               );
             },
             style: ElevatedButton.styleFrom(
@@ -95,122 +98,80 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
   }
 }
 
-Widget modalBottomSheetSpecialty(
-  BuildContext context,
-  List<Map<String, String>> displayItems,
-) {
-  return Stack(
-    clipBehavior: Clip.none,
-    alignment: Alignment.topCenter,
+Widget modalBottomSheetSpecialty({
+  required BuildContext context,
+  required List<Map<String, String>> displayItems,
+}) {
+  return Column(
     children: [
-      Container(
-        constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.7,
-        ),
-        padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-        ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          IconButton(
+            iconSize: 30,
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(Icons.close, size: 22, color: GlobalColors.textColor),
+          ),
 
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 14),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: SizedBox(
-                      width: 30,
-                      height: 30,
-                      child: Icon(
-                        Icons.close,
-                        size: 22,
-                        color: GlobalColors.textColor,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Tất cả chuyên khoa',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                        color: GlobalColors.textColor,
-                      ),
-                    ),
-                  ),
-                  Opacity(
-                    opacity: 0,
-                    child: Icon(
-                      Icons.exit_to_app,
-                      size: 24,
-                      color: GlobalColors.textColor,
-                    ),
-                  ),
-                ],
+          Expanded(
+            child: Text(
+              'Tất cả chuyên khoa',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w700,
+                color: GlobalColors.textColor,
               ),
             ),
-
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: List.generate((displayItems.length / 4).ceil(), (
-                    rowIndex,
-                  ) {
-                    int startIndex = rowIndex * 4;
-                    int endIndex = (startIndex + 4).clamp(
-                      0,
-                      displayItems.length,
-                    );
-                    final rowItems = displayItems.sublist(startIndex, endIndex);
-
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        bottom:
-                            rowIndex < (displayItems.length / 4).ceil() - 1
-                                ? 30
-                                : 0,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children:
-                            rowItems.map((item) {
-                              return FeatureItem(
-                                width: 55,
-                                height: 55,
-                                widthSizedBox: 85,
-                                title: item['title']!,
-                                imagePath: item['image']!,
-                              );
-                            }).toList(),
-                      ),
-                    );
-                  }),
-                ),
-              ),
+          ),
+          Opacity(
+            opacity: 0,
+            child: Icon(
+              Icons.exit_to_app,
+              size: 24,
+              color: GlobalColors.textColor,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
 
-      Positioned(
-        top: -14,
-        left: 0,
-        right: 0,
-        child: Center(
-          child: Container(
-            width: 45,
-            height: 5,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
+      Expanded(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: List.generate((displayItems.length / 4).ceil(), (
+                rowIndex,
+              ) {
+                int startIndex = rowIndex * 4;
+                int endIndex = (startIndex + 4).clamp(0, displayItems.length);
+                final rowItems = displayItems.sublist(startIndex, endIndex);
+
+                return Padding(
+                  padding: EdgeInsets.only(
+                    bottom:
+                        rowIndex < (displayItems.length / 4).ceil() - 1
+                            ? 20
+                            : 0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children:
+                        rowItems.map((item) {
+                          return FeatureItem(
+                            width: 55,
+                            height: 55,
+                            widthSizedBox: 85,
+                            title: item['title']!,
+                            imagePath: item['image']!,
+                          );
+                        }).toList(),
+                  ),
+                );
+              }),
             ),
           ),
         ),
