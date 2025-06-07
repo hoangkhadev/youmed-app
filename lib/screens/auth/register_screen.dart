@@ -6,7 +6,6 @@ import 'package:my_flutter_app/screens/auth/register_info_form_screen.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/utils/global.images.icons.dart';
 import 'package:my_flutter_app/widgets/custom_dialog.dart';
-import 'package:my_flutter_app/widgets/overlay.dart';
 import 'package:my_flutter_app/widgets/scrollable_screen_wrapper.dart';
 import 'package:my_flutter_app/widgets/toast.dart';
 
@@ -396,8 +395,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ],
                   ),
                 ),
-
-                if (_isLoading) LoadingOverlay(),
               ],
             ),
           ],

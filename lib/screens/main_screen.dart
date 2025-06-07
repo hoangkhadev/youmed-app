@@ -9,7 +9,7 @@ import 'package:my_flutter_app/utils/global.images.icons.dart';
 
 class MainScreen extends StatefulWidget {
   final int currentIndex;
-  const MainScreen({super.key, required this.currentIndex});
+  const MainScreen({super.key, this.currentIndex = 0});
   static final String id = 'main_screen';
 
   @override
@@ -18,7 +18,6 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   late int _currentIndex;
-
   final List<Widget> _screens = [
     HomeScreen(),
     AppointmentScreen(),
@@ -29,15 +28,14 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    _currentIndex = widget.currentIndex;
+    _currentIndex = widget.currentIndex.clamp(0, _screens.length - 1);
   }
 
   void _onTabTapped(int index) {
     if (_currentIndex != index) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => MainScreen(currentIndex: index)),
-      );
+      setState(() {
+        _currentIndex = index;
+      });
     }
   }
 
@@ -60,7 +58,6 @@ class _MainScreenState extends State<MainScreen> {
           ],
         ),
         child: SizedBox(
-          height: 75,
           child: BottomNavigationBar(
             currentIndex: _currentIndex,
             onTap: _onTabTapped,
@@ -80,7 +77,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               _customNavigationBarItem(
                 GlobalImageIcons.calendarIcon,
-                GlobalImageIcons.calendarActiveIcon,  
+                GlobalImageIcons.calendarActiveIcon,
                 'Lịch khám',
               ),
               _customNavigationBarItem(
@@ -116,12 +113,15 @@ BottomNavigationBarItem _customNavigationBarItem(
         SizedBox(height: spacing),
       ],
     ),
-    activeIcon: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Image.asset(iconActive, width: iconSize, height: iconSize),
-        SizedBox(height: spacing),
-      ],
+    activeIcon: Padding(
+      padding: EdgeInsets.symmetric(vertical: 6),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(iconActive, width: iconSize, height: iconSize),
+          SizedBox(height: spacing),
+        ],
+      ),
     ),
     label: label,
     tooltip: label,
