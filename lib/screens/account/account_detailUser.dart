@@ -99,24 +99,7 @@ class _AccountDetailInfoState extends State<AccountDetailInfo> {
               showTrailing: true,
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: infoItem(
-              'Mã bảo hiểm y tế',
-              context,
-              'Chưa cập nhật',
-              showTrailing: true,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: infoItem(
-              'Mã căn cước công dân',
-              context,
-              'Chưa cập nhật',
-              showTrailing: true,
-            ),
-          ),
+
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: infoItem(
