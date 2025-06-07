@@ -80,7 +80,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               _customNavigationBarItem(
                 GlobalImageIcons.calendarIcon,
-                GlobalImageIcons.calendarActiveIcon,
+                GlobalImageIcons.calendarActiveIcon,  
                 'Lịch khám',
               ),
               _customNavigationBarItem(

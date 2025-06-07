@@ -79,6 +79,7 @@ flutter:
     - assets/images/icons/notification-bell.png
     - assets/images/icons/search.png
     - assets/images/icons/specialty_bag.png
+    - assets/images/icons/message.png
     - assets/images/icons/medical-star.png
     - assets/images/icons/hospital_heading.png
     - assets/images/icons/clinic.png

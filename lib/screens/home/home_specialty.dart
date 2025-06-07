@@ -30,6 +30,7 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
             iconPath: GlobalImageIcons.specialtyBagIcon,
             title: 'Khám theo chuyên khoa',
           ),
+
           SizedBox(height: 20),
           FittedBox(
             child: Column(

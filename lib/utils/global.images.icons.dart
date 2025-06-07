@@ -11,6 +11,7 @@ class GlobalImageIcons {
   static String notificationIcon = '$iconPath/notification-bell.png';
   static String searchIcon = '$iconPath/search.png';
   static String specialtyBagIcon = '$iconPath/specialty_bag.png';
+  static String message = '$iconPath/message.png';
   static String medicalStarIcon = '$iconPath/medical-star.png';
   static String hospitalHeadingIcon = '$iconPath/hospital_heading.png';
   static String clinicIcon = '$iconPath/clinic.png';

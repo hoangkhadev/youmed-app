@@ -21,6 +21,7 @@ final List<Map<String, String>> specialties = [
   {'title': 'Nhãn khoa', 'image': GlobalImageIcons.nhanKhoaIcon},
   {'title': 'Nam khoa', 'image': GlobalImageIcons.namKhoaIcon},
   {'title': 'Vô sinh hiếm muộn', 'image': GlobalImageIcons.voSinhHiemMuonIcon},
+
   {'title': 'Ngoại tiết niệu', 'image': GlobalImageIcons.ngoaiTietNieuIcon},
   {'title': 'Ngoại thần kinh', 'image': GlobalImageIcons.ngoaiThanKinhIcon},
   {'title': 'Nội tổng quát', 'image': GlobalImageIcons.noiTongQuatIcon},
