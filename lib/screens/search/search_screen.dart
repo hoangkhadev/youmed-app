@@ -7,7 +7,7 @@ import '../../widgets/filter_chip.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
-
+  static final id = 'searchscreen';
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }

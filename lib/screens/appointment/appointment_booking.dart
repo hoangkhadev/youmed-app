@@ -4,7 +4,7 @@ import '../../widgets/schedule_weekdays.dart';
 
 class AppointmentBooking extends StatefulWidget {
   const AppointmentBooking({super.key});
-
+  static final id = 'appointmentbooking';
   @override
   State<AppointmentBooking> createState() => _AppointmentBookingState();
 }

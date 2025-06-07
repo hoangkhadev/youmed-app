@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/utils/global.colors.dart';
 
 class ScheduleWeekDays extends StatefulWidget {
   final Function(DateTime) onDateSelected;
@@ -18,7 +19,7 @@ class _ScheduleWeekDaysState extends State<ScheduleWeekDays> {
     final weekdayNames = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
 
     return Row(
-      children: List.generate(7, (index) {
+      children: List.generate(14, (index) {
         final date = today.add(Duration(days: index));
         final isSelected =
             selectedDate.day == date.day &&
@@ -35,29 +36,29 @@ class _ScheduleWeekDaysState extends State<ScheduleWeekDays> {
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 6),
             padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: isSelected ? Colors.blue : Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.blue),
-            ),
+
             child: Column(
               children: [
                 Text(
                   weekdayNames[date.weekday % 7],
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: isSelected ? Colors.white : Colors.black,
-                  ),
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 4),
                 CircleAvatar(
+                  radius: 25,
                   backgroundColor:
-                      isSelected ? Colors.white : Colors.blue.shade100,
-                  child: Text(
-                    date.day.toString().padLeft(2, '0'),
-                    style: TextStyle(
-                      color: isSelected ? Colors.blue : Colors.black,
+                      isSelected
+                          ? GlobalColors.mainColor
+                          : Colors.grey.shade300,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Text(
+                      date.day.toString().padLeft(2, '0'),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color:
+                            isSelected ? GlobalColors.whiteColor : Colors.black,
+                      ),
                     ),
                   ),
                 ),
@@ -65,8 +66,9 @@ class _ScheduleWeekDaysState extends State<ScheduleWeekDays> {
                 Text(
                   "15 slot",
                   style: TextStyle(
+                    fontWeight: FontWeight.bold,
                     fontSize: 12,
-                    color: isSelected ? Colors.white : Colors.green,
+                    color: Colors.green,
                   ),
                 ),
               ],

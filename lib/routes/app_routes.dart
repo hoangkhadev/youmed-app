@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/screens/appointment/appointment_booking.dart';
+import 'package:my_flutter_app/screens/search/search_screen.dart';
 
 import '../../screens/auth/login_screen.dart';
 import '../../screens/main_screen.dart';
@@ -12,5 +14,7 @@ class AppRoutes {
       final args = ModalRoute.of(context)?.settings.arguments as int?;
       return MainScreen(currentIndex: args ?? 0);
     },
+    SearchScreen.id: (context) => const SearchScreen(),
+    AppointmentBooking.id: (context) => const AppointmentBooking(),
   };
 }

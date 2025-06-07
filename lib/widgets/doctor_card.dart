@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/screens/appointment/appointment_booking.dart';
+import 'package:my_flutter_app/screens/search/search_doctordetail.dart';
 import '../../models/doctor.model.dart';
 import '../../utils/global.colors.dart';
 
@@ -80,7 +82,9 @@ class DoctorCard extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: ElevatedButton(
-                onPressed: onBookingPressed ?? () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, AppointmentBooking.id);
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: GlobalColors.mainColor,
                   shape: RoundedRectangleBorder(
