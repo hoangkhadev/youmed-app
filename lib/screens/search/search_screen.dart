@@ -6,6 +6,7 @@ import 'package:my_flutter_app/widgets/doctor_card.dart';
 import 'package:my_flutter_app/widgets/filter_chip.dart';
 
 class SearchScreen extends StatefulWidget {
+  static final id = 'search_screen';
   const SearchScreen({super.key});
 
   @override
