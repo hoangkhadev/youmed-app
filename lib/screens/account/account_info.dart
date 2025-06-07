@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../utils/global.colors.dart';
-import '../../utils/global.images.icons.dart';
-import './account_detail_user.dart';
+import 'package:my_flutter_app/utils/global.colors.dart';
+import 'package:my_flutter_app/providers/auth_provider.dart';
+import 'package:my_flutter_app/utils/global.images.icons.dart';
+import 'package:my_flutter_app/screens/account/account_detail_user.dart';
 
 class AccountInfo extends StatefulWidget {
+  static final id = 'account_info_screen';
   const AccountInfo({super.key});
+
   @override
   State<AccountInfo> createState() => _AccountInfoState();
 }
@@ -13,25 +17,27 @@ class AccountInfo extends StatefulWidget {
 class _AccountInfoState extends State<AccountInfo> {
   @override
   Widget build(BuildContext context) {
+    final auth = context.watch<AuthProvider>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Hồ sơ y tế',
-          style: TextStyle(fontWeight: FontWeight.w600),
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
         ),
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back_ios_outlined),
+          icon: Icon(Icons.arrow_back_ios_outlined, size: 20),
         ),
         foregroundColor: Colors.white,
         backgroundColor: GlobalColors.mainColor,
 
         actions: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 18),
             child: GestureDetector(
               onTap: () {
                 showModalBottomSheet(
@@ -43,8 +49,8 @@ class _AccountInfoState extends State<AccountInfo> {
               },
               child: Image.asset(
                 GlobalImageIcons.addInfo,
-                height: 24,
-                width: 24,
+                height: 20,
+                width: 20,
               ),
             ),
           ),
@@ -56,10 +62,7 @@ class _AccountInfoState extends State<AccountInfo> {
           children: [
             InkWell(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AccountDetailInfo()),
-                );
+                Navigator.pushNamed(context, AccountDetailInfo.id);
               },
               child: Card(
                 elevation: 4,
@@ -76,8 +79,8 @@ class _AccountInfoState extends State<AccountInfo> {
                         width: 45,
                         child: Image.asset(
                           GlobalImageIcons.detailInfo,
-                          width: 30,
-                          height: 30,
+                          width: 28,
+                          height: 28,
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -85,23 +88,23 @@ class _AccountInfoState extends State<AccountInfo> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Nguyễn Phú Tài',
+                            auth.currentUser!.fullName,
                             style: TextStyle(
                               fontSize: 16,
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
-                          SizedBox(height: 2),
+                          SizedBox(height: 1),
                           Text(
-                            '+84788655673',
+                            auth.currentUser!.phone,
                             style: TextStyle(
                               color: GlobalColors.subTextColor,
                               fontSize: 14,
                             ),
                           ),
-                          SizedBox(height: 2),
+                          SizedBox(height: 1),
                           Text(
-                            '21/01/2004',
+                            auth.currentUser!.dobFormated,
                             style: TextStyle(
                               color: GlobalColors.subTextColor,
                               fontSize: 14,

@@ -1,0 +1,57 @@
+import 'dart:convert';
+
+import 'package:my_flutter_app/core/api_client.dart';
+import 'package:my_flutter_app/core/storage.dart';
+import 'package:my_flutter_app/models/user_model.dart';
+
+class AuthService {
+  final ApiClient _api = ApiClient();
+
+  Future<UserModel?> login(String phone, String password) async {
+    final res = await _api.post('auth/login', {
+      'phone': phone,
+      'password': password,
+    });
+
+    if (res.statusCode == 200) {
+      final data = jsonDecode(res.body);
+      final token = data['access_token'];
+      final user = UserModel.fromJson(data['user']);
+
+      await AppStorage.saveAccessToken(token);
+      await AppStorage.saveUser(jsonEncode(user.toJson()));
+
+      return user;
+    } else {
+      final error = jsonDecode(res.body);
+      throw error['message'] ?? 'Có lỗi xảy ra vui lòng thử lại sau';
+    }
+  }
+
+  Future<UserModel?> register(String phone, String password) async {
+    final res = await _api.post('auth/register', {
+      'phone': phone,
+      'password': password,
+    });
+
+    if (res.statusCode == 201) {
+      final data = jsonDecode(res.body);
+      final token = data['access_token'];
+      final user = UserModel.fromJson(data['user']);
+
+      await AppStorage.saveAccessToken(token);
+      await AppStorage.saveUser(jsonEncode(user.toJson()));
+
+      return user;
+    } else if (res.statusCode == 400) {
+      final error = jsonDecode(res.body);
+      throw error['message'];
+    } else {
+      throw 'Đã xảy ra lỗi, vui lòng thử lại sau';
+    }
+  }
+
+  Future<void> logout() async {
+    await AppStorage.clearAll();
+  }
+}

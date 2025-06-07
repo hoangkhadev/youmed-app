@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/data.dart';
-import '../../widgets/feature_item.dart';
+import 'package:my_flutter_app/utils/data.dart';
+import 'package:my_flutter_app/widgets/custom_card.dart';
+import 'package:my_flutter_app/widgets/feature_item.dart';
 
 class HomeFeature extends StatelessWidget {
   const HomeFeature({super.key});
@@ -10,9 +11,7 @@ class HomeFeature extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 6, right: 6),
-      child: Card(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: CustomCard(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           child: Column(

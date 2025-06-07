@@ -5,6 +5,7 @@ class GlobalImageIcons {
   static String logo = '$imagePath/logo.png';
   static String authLogo = '$imagePath/auth_logo.png';
   static String crown = '$imagePath/crown.gif';
+  static String loginRequired = '$imagePath/login_requierd.png';
 
   static String userIcon = '$iconPath/user.png';
   static String notificationIcon = '$iconPath/notification-bell.png';
@@ -14,6 +15,9 @@ class GlobalImageIcons {
   static String medicalStarIcon = '$iconPath/medical-star.png';
   static String hospitalHeadingIcon = '$iconPath/hospital_heading.png';
   static String clinicIcon = '$iconPath/clinic.png';
+  static String radioButtonIcon = '$iconPath/radio-button.png';
+  static String radioButtonCheckedIcon = '$iconPath/radio-button-checked.png';
+  static String dateTimePickerIcon = '$iconPath/calendar.png';
 
   /* Banner */
   static String banner1 = '$imagePath/banner/banner1.png';
@@ -128,6 +132,10 @@ class GlobalImageIcons {
   static String tamLyIcon = '$iconPath/specialty/tam-ly.png';
   static String thamMyIcon = '$iconPath/specialty/tham-my.png';
   static String daKhoaIcon = '$iconPath/specialty/da-khoa.png';
+  static String phucHoiChucNangVatLyTriLieuIcon =
+      '$iconPath/specialty/phuc-hoi-chuc-nang-vat-ly-tri-lieu.png';
+
+  // Account icon
   static String hoSoYTeIcon = '$iconPath/account/hosoYTe.png';
   static String dsQuanTamIcon = '$iconPath/account/heart.png';
   static String dieuKhoanIcon = '$iconPath/account/exclamation-mark.png';
@@ -142,6 +150,6 @@ class GlobalImageIcons {
   static String scan = '$iconPath/account/scan.png';
   static String userInfo = '$iconPath/account/userInfo.png';
   static String copy = '$iconPath/account/copy.png';
-  static String phucHoiChucNangVatLyTriLieuIcon =
-      '$iconPath/specialty/phuc-hoi-chuc-nang-vat-ly-tri-lieu.png';
+  static String maleIcon = '$iconPath/account/man.png';
+  static String femaleIcon = '$iconPath/account/woman.png';
 }

@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/screens/appointment/appointment_booking.dart';
-import 'package:my_flutter_app/screens/search/search_doctordetail.dart';
-import '../../models/doctor.model.dart';
 import '../../utils/global.colors.dart';
 
 class DoctorCard extends StatelessWidget {
-  final Doctor doctor;
+  final Map<String, dynamic> doctor;
   final VoidCallback? onBookingPressed;
 
-  const DoctorCard({Key? key, required this.doctor, this.onBookingPressed})
-    : super(key: key);
+  const DoctorCard({super.key, required this.doctor, this.onBookingPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +21,14 @@ class DoctorCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  radius: 32,
-                  backgroundImage: AssetImage(doctor.avatarUrl),
-                ),
+                CircleAvatar(radius: 32, backgroundImage: AssetImage('')),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${doctor.title} ${doctor.name}',
+                        'Tran Hoang Kha',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -42,7 +36,7 @@ class DoctorCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${doctor.experience} năm kinh nghiệm',
+                        '25 năm kinh nghiệm',
                         style: TextStyle(color: GlobalColors.grayColor),
                       ),
                       const SizedBox(height: 6),
@@ -56,7 +50,7 @@ class DoctorCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
-                          doctor.specialty,
+                          'Khoa Nhi',
                           style: const TextStyle(fontSize: 13),
                         ),
                       ),
@@ -72,7 +66,7 @@ class DoctorCard extends StatelessWidget {
                 const SizedBox(width: 4),
                 Expanded(
                   child: Text(
-                    doctor.address,
+                    'Hồ Chí Minh',
                     style: const TextStyle(fontSize: 13, color: Colors.black87),
                   ),
                 ),

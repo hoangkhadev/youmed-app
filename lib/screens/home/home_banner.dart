@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-import '../../utils/global.images.icons.dart';
+import 'package:my_flutter_app/utils/global.images.icons.dart';
+import 'package:my_flutter_app/widgets/custom_card.dart';
 
 final List<String> imgList = [
   GlobalImageIcons.banner1,
@@ -19,7 +20,7 @@ class HomeBanner extends StatelessWidget {
     final double height = 180;
     return Padding(
       padding: EdgeInsets.only(top: 6, left: 6, right: 6),
-      child: Card(
+      child: CustomCard(
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: CarouselSlider(

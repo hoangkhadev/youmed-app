@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../utils/global.colors.dart';
-import '../../widgets/schedule_weekdays.dart';
+
+import 'package:my_flutter_app/utils/global.colors.dart';
+import 'package:my_flutter_app/widgets/schedule_weekdays.dart';
 
 class AppointmentBooking extends StatefulWidget {
   const AppointmentBooking({super.key});
