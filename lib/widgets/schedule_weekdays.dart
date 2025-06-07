@@ -47,9 +47,7 @@ class _ScheduleWeekDaysState extends State<ScheduleWeekDays> {
                 CircleAvatar(
                   radius: 25,
                   backgroundColor:
-                      isSelected
-                          ? GlobalColors.mainColor
-                          : Colors.grey.shade300,
+                      isSelected ? GlobalColors.mainColor : Colors.grey[200],
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: Text(
@@ -62,13 +60,19 @@ class _ScheduleWeekDaysState extends State<ScheduleWeekDays> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  "15 slot",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                    color: Colors.green,
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 0, 206, 86),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Text(
+                    "15 slot",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      color: GlobalColors.whiteColor,
+                    ),
                   ),
                 ),
               ],

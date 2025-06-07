@@ -60,7 +60,6 @@ class _MainScreenState extends State<MainScreen> {
           ],
         ),
         child: SizedBox(
-          height: 75,
           child: BottomNavigationBar(
             currentIndex: _currentIndex,
             onTap: _onTabTapped,
@@ -80,7 +79,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               _customNavigationBarItem(
                 GlobalImageIcons.calendarIcon,
-                GlobalImageIcons.calendarActiveIcon,  
+                GlobalImageIcons.calendarActiveIcon,
                 'Lịch khám',
               ),
               _customNavigationBarItem(

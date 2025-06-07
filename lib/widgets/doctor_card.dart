@@ -87,7 +87,10 @@ class DoctorCard extends StatelessWidget {
                 ),
                 child: Text(
                   'Đặt lịch ngay',
-                  style: TextStyle(color: GlobalColors.whiteColor),
+                  style: TextStyle(
+                    color: GlobalColors.whiteColor,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

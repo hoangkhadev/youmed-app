@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/widgets/time_slot.dart';
 import '../../screens/appointment/appointment_booking.dart';
 import '../../utils/global.images.icons.dart';
 import '../../widgets/schedule_weekdays.dart';
@@ -12,8 +13,15 @@ class DoctorDetail extends StatefulWidget {
 }
 
 class _DoctorDetailState extends State<DoctorDetail> {
-  int selectedIndex = -1;
-
+  int selectedIndex = 0;
+  final List<String> timeSlots = [
+    "17:30-17:40",
+    "17:40-17:50",
+    "17:50-18:00",
+    "18:00-18:10",
+    "18:10-18:20",
+    "18:20-18:30",
+  ];
   @override
   Widget build(BuildContext context) {
     const doctorName = "Nguyễn Văn A";
@@ -26,14 +34,6 @@ class _DoctorDetailState extends State<DoctorDetail> {
     const doctorExperienceDetails =
         "10 năm công tác tại Bệnh viện Đại học Y Dược TP.HCM";
     const doctorImageUrl = "https://example.com/doctor_avatar.png";
-    final List<String> timeSlots = [
-      "17:30-17:40",
-      "17:40-17:50",
-      "17:50-18:00",
-      "18:00-18:10",
-      "18:10-18:20",
-      "18:20-18:30",
-    ];
 
     return SafeArea(
       child: Scaffold(
@@ -88,43 +88,76 @@ class _DoctorDetailState extends State<DoctorDetail> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(16),
-                child: Row(
+                child: Column(
                   children: [
-                    CircleAvatar(
-                      radius: 36,
-                      backgroundImage: NetworkImage(doctorImageUrl),
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 36,
+                          backgroundImage: NetworkImage(doctorImageUrl),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                doctorName,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Image.asset(
+                                        GlobalImageIcons.certification,
+                                        width: 20,
+                                        height: 20,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 6),
+                                    Text(
+                                      'Bác sĩ',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        color: GlobalColors.mainColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              Text('$doctorExperience năm kinh nghiệm'),
+                              const SizedBox(height: 4),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            doctorName,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Text('Chuyên khoa: ', style: TextStyle(fontSize: 14)),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
                           ),
-                          Text(
-                            'Bác sĩ',
-                            style: TextStyle(color: GlobalColors.mainColor),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          Text('$doctorExperience năm kinh nghiệm'),
-                          const SizedBox(height: 4),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Text(doctorSpecialty),
+                          child: Text(
+                            doctorSpecialty,
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -160,7 +193,7 @@ class _DoctorDetailState extends State<DoctorDetail> {
                     const SizedBox(height: 12),
                     const Text(
                       "Buổi chiều",
-                      style: TextStyle(fontWeight: FontWeight.w500),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
                     SingleChildScrollView(
@@ -218,8 +251,7 @@ class _DoctorDetailState extends State<DoctorDetail> {
           ),
         ),
 
-        bottomNavigationBar: ConstrainedBox(
-          constraints: const BoxConstraints(maxHeight: 200, maxWidth: 400),
+        bottomNavigationBar: SizedBox(
           child: Container(
             padding: const EdgeInsets.all(12),
             color: GlobalColors.whiteColor,
@@ -258,6 +290,7 @@ class _DoctorDetailState extends State<DoctorDetail> {
                           child: Text(
                             "Chat với bác sĩ",
                             style: TextStyle(
+                              fontWeight: FontWeight.bold,
                               color: GlobalColors.mainColor,
                               fontSize: 18,
                             ),
@@ -285,6 +318,7 @@ class _DoctorDetailState extends State<DoctorDetail> {
                           child: Text(
                             'Gọi video',
                             style: TextStyle(
+                              fontWeight: FontWeight.bold,
                               color: GlobalColors.whiteColor,
                               fontSize: 18,
                             ),
@@ -309,6 +343,7 @@ class _DoctorDetailState extends State<DoctorDetail> {
                           child: Text(
                             "Đặt khám",
                             style: TextStyle(
+                              fontWeight: FontWeight.bold,
                               color: GlobalColors.whiteColor,
                               fontSize: 18,
                             ),
@@ -320,49 +355,6 @@ class _DoctorDetailState extends State<DoctorDetail> {
                 ),
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class TimeSlot extends StatefulWidget {
-  final String time;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const TimeSlot({
-    super.key,
-    required this.time,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  State<TimeSlot> createState() => _TimeSlotState();
-}
-
-class _TimeSlotState extends State<TimeSlot> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 6),
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
-        decoration: BoxDecoration(
-          color:
-              widget.isSelected
-                  ? GlobalColors.mainColor
-                  : GlobalColors.whiteColor,
-          border: Border.all(color: Colors.grey.shade300),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          widget.time,
-          style: TextStyle(
-            color: widget.isSelected ? GlobalColors.whiteColor : Colors.black,
           ),
         ),
       ),
