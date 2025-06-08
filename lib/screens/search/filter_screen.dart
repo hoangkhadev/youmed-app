@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/utils/global.colors.dart';
 
 class FilterScreen extends StatefulWidget {
   final String selectedPlaceType;
@@ -45,53 +46,111 @@ class _FilterScreenState extends State<FilterScreen> {
     ];
     final locationOptions = ["Gần nhất", "Tất cả"];
 
-    return Scaffold(
-      appBar: AppBar(title: const Text("Bộ lọc")),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          const Text("Địa điểm", style: TextStyle(fontWeight: FontWeight.bold)),
-          ...locationOptions.map(
-            (opt) => RadioListTile(
-              title: Text(opt),
-              value: opt,
-              groupValue: selectedLocation,
-              onChanged: (value) => setState(() => selectedLocation = value!),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: GlobalColors.mainColor,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_outlined,
+              color: GlobalColors.whiteColor,
             ),
+            onPressed: () => Navigator.pop(context),
           ),
-          const Divider(height: 32),
-          const Text("Nơi khám", style: TextStyle(fontWeight: FontWeight.bold)),
-          ...placeOptions.map(
-            (opt) => RadioListTile(
-              title: Text(opt),
-              value: opt,
-              groupValue: selectedPlaceType,
-              onChanged: (value) => setState(() => selectedPlaceType = value!),
-            ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            Expanded(
-              child: OutlinedButton(
-                onPressed: _resetAllFilters,
-                child: const Text("Xoá bộ lọc"),
+          titleSpacing: 0,
+          title: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: Text(
+              'Bộ lọc',
+              style: TextStyle(
+                color: GlobalColors.whiteColor,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {
-                  widget.onApply(selectedPlaceType, selectedLocation);
-                  Navigator.pop(context);
-                },
-                child: const Text("Áp dụng"),
+          ),
+        ),
+        body: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            const Text(
+              "Địa điểm",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            ...locationOptions.map(
+              (opt) => RadioListTile(
+                title: Text(opt),
+                value: opt,
+                groupValue: selectedLocation,
+                onChanged: (value) => setState(() => selectedLocation = value!),
+              ),
+            ),
+            const Divider(height: 32),
+            const Text(
+              "Nơi khám",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            ...placeOptions.map(
+              (opt) => RadioListTile(
+                title: Text(opt),
+                value: opt,
+                groupValue: selectedPlaceType,
+                onChanged:
+                    (value) => setState(() => selectedPlaceType = value!),
               ),
             ),
           ],
+        ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: _resetAllFilters,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: GlobalColors.mainColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: Text(
+                    'Xóa bộ lọc',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: GlobalColors.whiteColor,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    widget.onApply(selectedPlaceType, selectedLocation);
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: GlobalColors.mainColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: Text(
+                    'Áp dụng',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: GlobalColors.whiteColor,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
