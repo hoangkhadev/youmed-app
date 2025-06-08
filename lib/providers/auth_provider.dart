@@ -22,7 +22,9 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> login(String phone, String password) async {
     final user = await _authService.login(phone, password);
-    _user = user;
+    if (user != null) {
+      _user = user;
+    }
     notifyListeners();
   }
 

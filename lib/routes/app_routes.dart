@@ -14,8 +14,10 @@ class AppRoutes {
     SplashScreen.id: (_) => const SplashScreen(),
     LoginScreen.id: (_) => const LoginScreen(),
     MainScreen.id: (context) {
-      final args = ModalRoute.of(context)?.settings.arguments as int?;
-      return MainScreen(currentIndex: args ?? 0);
+      final args =
+          ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+      final currentIndex = args?['currentIndex'] ?? 0;
+      return MainScreen(currentIndex: currentIndex);
     },
 
     AppointmentBooking.id: (_) => const AppointmentBooking(),

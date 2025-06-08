@@ -15,6 +15,11 @@ class AuthService {
 
     if (res.statusCode == 200) {
       final data = jsonDecode(res.body);
+
+      if (data['access_token'] == null || data['user'] == null) {
+        throw 'Dữ liệu phản hồi không hợp lệ';
+      }
+
       final token = data['access_token'];
       final user = UserModel.fromJson(data['user']);
 

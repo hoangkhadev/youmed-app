@@ -38,7 +38,7 @@ class HomeHeader extends StatelessWidget {
                     ? Navigator.pushReplacementNamed(
                       context,
                       MainScreen.id,
-                      arguments: 3,
+                      arguments: {'currentIndex': 3},
                     )
                     : Navigator.pushNamed(context, LoginScreen.id);
               },
