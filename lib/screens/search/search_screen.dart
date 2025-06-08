@@ -86,21 +86,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    FilterChipWidget(
-                      icon: Icons.compass_calibration,
-                      label: "Tất cả",
-                    ),
-                    SizedBox(width: 8),
-                    FilterChipWidget(
-                      icon: Icons.location_on_outlined,
-                      label: "Nơi khám: Tất cả",
-                    ),
-                    SizedBox(width: 8),
-                    FilterChipWidget(icon: Icons.tune, label: "Bộ lọc"),
-                  ],
-                ),
+                child: FilterChipsRow(),
               ),
             ),
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
-import 'package:my_flutter_app/widgets/custom_bottom_sheet.dart';
 import 'package:my_flutter_app/widgets/schedule_weekdays.dart';
 import 'package:my_flutter_app/widgets/time_slot.dart';
 
@@ -31,6 +30,13 @@ class _AppointmentBookingState extends State<AppointmentBooking>
     '14:00-14:10',
     '14:10-14:20',
     '14:20-14:30',
+    '15:20-15:30',
+    '13:30-13:40',
+    '13:40-13:50',
+    '14:00-14:10',
+    '14:10-14:20',
+    '14:20-14:30',
+    '15:20-15:30',
   ];
 
   int selectedIndex = 0;
@@ -60,27 +66,31 @@ class _AppointmentBookingState extends State<AppointmentBooking>
         appBar: AppBar(
           backgroundColor: GlobalColors.mainColor,
           leading: IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back_ios_outlined,
-              color: Colors.white,
+              color: GlobalColors.whiteColor,
             ),
             onPressed: () => Navigator.pop(context),
           ),
           titleSpacing: 0,
-          title: const Text(
+          title: Text(
             'Đặt lịch khám',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 14,
+              color: GlobalColors.whiteColor,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
           actions: [
             TextButton.icon(
-              icon: const Icon(Icons.help_outline, color: Colors.white),
-              label: const Text(
+              icon: Icon(
+                Icons.help_outline,
+                color: GlobalColors.whiteColor,
+                size: 20,
+              ),
+              label: Text(
                 'Hỗ trợ',
-                style: TextStyle(color: Colors.white, fontSize: 14),
+                style: TextStyle(color: GlobalColors.whiteColor, fontSize: 14),
               ),
               onPressed: () {},
             ),
@@ -88,220 +98,425 @@ class _AppointmentBookingState extends State<AppointmentBooking>
         ),
         backgroundColor: GlobalColors.bgColor,
         body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Doctor info
-                Container(
-                  decoration: BoxDecoration(
-                    color: GlobalColors.whiteColor,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: ListTile(
-                    leading: const CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        "https://via.placeholder.com/150",
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                color: GlobalColors.whiteColor,
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                child: Row(
+                  children: [
+                    _buildProgressStep('1', 'Chọn lịch khám', true, false),
+                    Expanded(
+                      child: Container(height: 1, color: Colors.grey.shade300),
+                    ),
+                    _buildProgressStep('2', 'Xác nhận', false, false),
+                    Expanded(
+                      child: Container(height: 1, color: Colors.grey.shade300),
+                    ),
+                    _buildProgressStep('3', 'Nhận lịch hẹn', false, false),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: GlobalColors.whiteColor,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: EdgeInsets.all(16),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 30,
+                            backgroundImage: NetworkImage(
+                              "https://via.placeholder.com/150",
+                            ),
+                          ),
+                          SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Bác sĩ chuyên khoa 1",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Text(
+                                  "Vũ Thị Hạnh Thư",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                Text(
+                                  "Chuyên khoa: Sản phụ khoa",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    title: const Text(
-                      "Vũ Thị Hạnh Thư",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+
+                    SizedBox(height: 16),
+
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.check_circle,
+                          color: GlobalColors.mainColor,
+                          size: 20,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          "Đặt lịch khám này cho:",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
                     ),
-                    subtitle: const Text("Chuyên khoa: Sản phụ khoa"),
-                  ),
-                ),
+                    SizedBox(height: 12),
 
-                const SizedBox(height: 10),
-                const Text(
-                  "Đặt lịch khám này cho:",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-
-                // Patient info
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: GlobalColors.whiteColor,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Họ và tên: Nguyễn Phú Tài"),
-                            Text("Giới tính: Nam"),
-                            Text("Ngày sinh: 21/01/2004"),
-                            Text("Điện thoại: 0788 655 673"),
-                          ],
-                        ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: GlobalColors.whiteColor,
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 4,
-                              vertical: 4,
+                            padding: EdgeInsets.only(
+                              left: 16,
+                              right: 16,
+                              top: 16,
                             ),
-                            child: TextButton(
-                              onPressed: () {},
-                              style: TextButton.styleFrom(
-                                foregroundColor: Colors.black,
-                              ),
-                              child: const Text(
-                                "Xem chi tiết",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Họ và tên",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey.shade600,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Nguyễn Phú Tài",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
+                                SizedBox(height: 12),
+
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Giới tính",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey.shade600,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Nam",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 12),
+
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Ngày sinh",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey.shade600,
+                                      ),
+                                    ),
+                                    Text(
+                                      "21/01/2004",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 12),
+
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Điện thoại",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey.shade600,
+                                      ),
+                                    ),
+                                    Text(
+                                      "0788 655 673",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 4,
-                              vertical: 4,
+
+                          SizedBox(height: 16),
+
+                          Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 12,
                             ),
-                            child: TextButton(
-                              onPressed: () {},
-                              style: TextButton.styleFrom(
-                                foregroundColor: GlobalColors.mainColor,
-                                backgroundColor: Colors.grey.shade100,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(12),
+                                bottomRight: Radius.circular(12),
                               ),
-                              child: const Text(
-                                "Sửa hồ sơ",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextButton(
+                                  onPressed: () {},
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: Colors.black,
+                                    padding: EdgeInsets.all(4),
+                                    minimumSize: Size.zero,
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  child: Text(
+                                    "Xem chi tiết",
+                                    style: TextStyle(fontSize: 14),
+                                  ),
                                 ),
-                              ),
+                                TextButton(
+                                  onPressed: () {},
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: GlobalColors.mainColor,
+                                    padding: EdgeInsets.all(4),
+                                    backgroundColor: GlobalColors.whiteColor,
+                                    minimumSize: Size.zero,
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  child: Text(
+                                    "Sửa hồ sơ",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 16),
-                const Text(
-                  "Chọn ngày khám",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-
-                Container(
-                  decoration: BoxDecoration(
-                    color: GlobalColors.whiteColor,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: ScheduleWeekDays(
-                      onDateSelected: (date) {
-                        setState(() {
-                          selectedDate = date;
-                        });
-                      },
                     ),
-                  ),
-                ),
 
-                const SizedBox(height: 16),
-                const Text(
-                  "Chọn khung giờ khám",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
+                    SizedBox(height: 16),
 
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: GlobalColors.whiteColor,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Column(
-                    children: [
-                      TabBar(
-                        controller: _tabController,
-                        labelColor: Colors.blue,
-                        unselectedLabelColor: Colors.grey,
-                        indicatorColor: Colors.blue,
-                        tabs: const [
-                          Tab(text: 'Buổi sáng'),
-                          Tab(text: 'Buổi chiều'),
-                        ],
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.check_circle,
+                          color: GlobalColors.mainColor,
+                          size: 20,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          "Chọn ngày khám:",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+
+                    Container(
+                      decoration: BoxDecoration(
+                        color: GlobalColors.whiteColor,
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      const SizedBox(height: 12),
-                      SizedBox(
-                        height: 180,
-                        child: TabBarView(
-                          controller: _tabController,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: ScheduleWeekDays(
+                          onDateSelected: (date) {
+                            setState(() {
+                              selectedDate = date;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 16),
+
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.check_circle,
+                          color: GlobalColors.mainColor,
+                          size: 20,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          "Chọn khung giờ khám",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: GlobalColors.whiteColor,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: DefaultTabController(
+                        length: 2,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Center(
-                              child: Wrap(
-                                runSpacing: 12,
-                                children: List.generate(
-                                  timeSlotsMorning.length,
-                                  (index) {
-                                    return TimeSlot(
-                                      time: timeSlotsMorning[index],
-                                      isSelected: selectedIndex == index,
-                                      onTap: () {
-                                        setState(() {
-                                          selectedIndex = index;
-                                        });
-                                      },
-                                    );
-                                  },
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12),
                                 ),
                               ),
-                            ),
-                            Center(
-                              child: Wrap(
-                                runSpacing: 12,
-                                children: List.generate(
-                                  timeSlotsAfternoon.length,
-                                  (index) {
-                                    int actualIndex =
-                                        index + timeSlotsMorning.length;
-                                    return TimeSlot(
-                                      time: timeSlotsAfternoon[index],
-                                      isSelected: selectedIndex == actualIndex,
-                                      onTap: () {
-                                        setState(() {
-                                          selectedIndex = actualIndex;
-                                        });
-                                      },
-                                    );
-                                  },
+                              child: TabBar(
+                                controller: _tabController,
+                                labelColor: Colors.black,
+                                unselectedLabelColor: Colors.black,
+                                indicator: BoxDecoration(
+                                  color: GlobalColors.whiteColor,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(12),
+                                    topRight: Radius.circular(12),
+                                  ),
                                 ),
+                                indicatorSize: TabBarIndicatorSize.tab,
+                                labelStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                tabs: [
+                                  Tab(text: 'Buổi sáng'),
+                                  Tab(text: 'Buổi chiều'),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 12),
+
+                            SizedBox(
+                              height: 100,
+                              child: TabBarView(
+                                controller: _tabController,
+                                children: [
+                                  SingleChildScrollView(
+                                    child: Wrap(
+                                      runSpacing: 12,
+                                      children: List.generate(
+                                        timeSlotsMorning.length,
+                                        (index) => TimeSlot(
+                                          time: timeSlotsMorning[index],
+                                          isSelected: selectedIndex == index,
+                                          onTap: () {
+                                            setState(() {
+                                              selectedIndex = index;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SingleChildScrollView(
+                                    child: Wrap(
+                                      runSpacing: 12,
+                                      children: List.generate(
+                                        timeSlotsAfternoon.length,
+                                        (index) {
+                                          final actualIndex =
+                                              index + timeSlotsMorning.length;
+                                          return TimeSlot(
+                                            time: timeSlotsAfternoon[index],
+                                            isSelected:
+                                                selectedIndex == actualIndex,
+                                            onTap: () {
+                                              setState(() {
+                                                selectedIndex = actualIndex;
+                                              });
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
 
         bottomNavigationBar: Container(
-          padding: const EdgeInsets.all(12),
+          padding: EdgeInsets.fromLTRB(16, 12, 16, 24),
           color: GlobalColors.whiteColor,
           child: SizedBox(
             height: 48,
@@ -310,21 +525,62 @@ class _AppointmentBookingState extends State<AppointmentBooking>
               style: ElevatedButton.styleFrom(
                 backgroundColor: GlobalColors.mainColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(8),
                 ),
+                elevation: 0,
               ),
               child: Text(
                 'Tiếp tục',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: GlobalColors.whiteColor,
-                  fontSize: 18,
+                  fontSize: 16,
                 ),
               ),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildProgressStep(
+    String number,
+    String title,
+    bool isActive,
+    bool isCompleted,
+  ) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 24,
+          height: 24,
+          decoration: BoxDecoration(
+            color: isActive ? GlobalColors.mainColor : Colors.grey.shade300,
+            shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: Text(
+              number,
+              style: TextStyle(
+                color: isActive ? Colors.white : Colors.grey.shade600,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(width: 8),
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 12,
+            color: isActive ? GlobalColors.mainColor : Colors.grey.shade600,
+            fontWeight: isActive ? FontWeight.w500 : FontWeight.normal,
+          ),
+        ),
+      ],
     );
   }
 }
