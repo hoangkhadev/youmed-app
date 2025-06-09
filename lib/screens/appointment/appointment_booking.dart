@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
-// import 'package:my_flutter_app/widgets/schedule_weekdays.dart';
 import 'package:my_flutter_app/widgets/time_slot.dart';
 
 class AppointmentBooking extends StatefulWidget {
@@ -468,7 +467,7 @@ class _AppointmentBookingState extends State<AppointmentBooking>
                                       runSpacing: 12,
                                       children: List.generate(
                                         timeSlotsMorning.length,
-                                        (index) => TimeSlot(
+                                        (index) => TimeSlotItem(
                                           time: timeSlotsMorning[index],
                                           isSelected: selectedIndex == index,
                                           onTap: () {
@@ -488,7 +487,7 @@ class _AppointmentBookingState extends State<AppointmentBooking>
                                         (index) {
                                           final actualIndex =
                                               index + timeSlotsMorning.length;
-                                          return TimeSlot(
+                                          return TimeSlotItem(
                                             time: timeSlotsAfternoon[index],
                                             isSelected:
                                                 selectedIndex == actualIndex,

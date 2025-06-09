@@ -1,42 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 
-class TimeSlot extends StatefulWidget {
+class TimeSlotItem extends StatelessWidget {
   final String time;
   final bool isSelected;
+  final bool isBooked;
   final VoidCallback onTap;
 
-  const TimeSlot({
+  const TimeSlotItem({
     super.key,
+    // required this.id,
     required this.time,
     required this.isSelected,
+    this.isBooked = false,
     required this.onTap,
   });
 
   @override
-  State<TimeSlot> createState() => _TimeSlotState();
-}
-
-class _TimeSlotState extends State<TimeSlot> {
-  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: isBooked ? null : onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 6),
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+        margin: const EdgeInsets.only(right: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color:
-              widget.isSelected
+              isBooked
+                  ? Colors.grey[300]
+                  : isSelected
                   ? GlobalColors.mainColor
-                  : GlobalColors.whiteColor,
-          border: Border.all(color: Colors.grey.shade200),
+                  : Colors.white,
+          border: Border.all(
+            color:
+                isBooked
+                    ? Colors.grey
+                    : isSelected
+                    ? GlobalColors.mainColor
+                    : Colors.grey,
+          ),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
-          widget.time,
+          time,
           style: TextStyle(
-            color: widget.isSelected ? GlobalColors.whiteColor : Colors.black,
+            color:
+                isBooked
+                    ? Colors.grey[600]
+                    : isSelected
+                    ? Colors.white
+                    : Colors.black,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
           ),
         ),
       ),

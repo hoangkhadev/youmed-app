@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/models/doctor_model.dart';
+import 'package:my_flutter_app/models/schedule_model.dart';
 import 'package:my_flutter_app/widgets/time_slot.dart';
+import 'package:my_flutter_app/widgets/toast.dart';
 import '../../screens/appointment/appointment_booking.dart';
 import '../../utils/global.images.icons.dart';
 import '../../widgets/schedule_weekdays.dart';
 import '../../utils/global.colors.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:collection/collection.dart';
 
 class DoctorDetail extends StatefulWidget {
   static final id = 'doctor_detail_screen';
@@ -19,20 +22,60 @@ class DoctorDetail extends StatefulWidget {
 
 class _DoctorDetailState extends State<DoctorDetail> {
   late DoctorModel _doctor;
-  int selectedIndex = 0;
-  final List<String> timeSlots = [
-    "17:30-17:40",
-    "17:40-17:50",
-    "17:50-18:00",
-    "18:00-18:10",
-    "18:10-18:20",
-    "18:20-18:30",
-  ];
+  DateTime selectedDate = DateTime.now();
+  ScheduleModel? selectedSchedule;
+  String? selectedTimeSlotId;
+  String? selectedSession;
+  TimeSlot? selectedTimeSlot;
 
   @override
   void initState() {
     super.initState();
     _doctor = widget.doctor;
+    _updateSelectedSchedule();
+  }
+
+  void _updateSelectedSchedule() {
+    try {
+      selectedSchedule = _doctor.schedules.firstWhereOrNull((schedule) {
+        final scheduleDate = schedule.date.toLocal();
+        return scheduleDate.year == selectedDate.year &&
+            scheduleDate.month == selectedDate.month &&
+            scheduleDate.day == selectedDate.day;
+      });
+      selectedTimeSlotId = null;
+      selectedSession = null;
+      selectedTimeSlot = null;
+    } catch (e) {
+      selectedSchedule = null;
+      selectedTimeSlotId = null;
+      selectedSession = null;
+      selectedTimeSlot = null;
+    }
+  }
+
+  Map<String, dynamic>? getSelectedSlotInfo() {
+    if (selectedTimeSlotId == null ||
+        selectedSession == null ||
+        selectedSchedule == null) {
+      return null;
+    }
+
+    final session = selectedSchedule!.sessions.firstWhere(
+      (s) => s.session == selectedSession,
+    );
+
+    final timeSlot = session.timeSlots.firstWhere(
+      (slot) => slot.id == selectedTimeSlotId,
+    );
+    selectedTimeSlot = timeSlot;
+    return {
+      'date': selectedDate,
+      'session': selectedSession,
+      'timeSlot': timeSlot,
+      'startTime': timeSlot.startTime,
+      'endTime': timeSlot.endTime,
+    };
   }
 
   @override
@@ -164,7 +207,6 @@ class _DoctorDetailState extends State<DoctorDetail> {
                       children: [
                         Text('Chuyên khoa: ', style: TextStyle(fontSize: 14)),
 
-                        Text('${_doctor.experienceYears} năm kinh nghiệm'),
                         const SizedBox(height: 4),
                         Container(
                           padding: const EdgeInsets.symmetric(
@@ -208,36 +250,142 @@ class _DoctorDetailState extends State<DoctorDetail> {
                         children: [
                           ScheduleWeekDays(
                             onDateSelected: (date) {
-                              // print("Selected date: $date");
+                              selectedDate = date;
+                              _updateSelectedSchedule();
+                              setState(() {});
                             },
-                            schedules: _doctor.schedules.toList(),
+                            schedules:
+                                _doctor.schedules.where((schedule) {
+                                  DateTime today = DateTime.now();
+                                  DateTime scheduleDate = schedule.date;
+
+                                  // Tính số ngày chênh lệch
+                                  int daysDifference =
+                                      scheduleDate.difference(today).inDays;
+
+                                  return daysDifference >=
+                                      0; // Từ hôm nay trở đi
+                                }).toList(),
                           ),
                         ],
                       ),
                     ),
 
                     const SizedBox(height: 12),
-                    const Text(
-                      "Buổi chiều",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: List.generate(timeSlots.length, (index) {
-                          return TimeSlot(
-                            time: timeSlots[index],
-                            isSelected: selectedIndex == index,
-                            onTap: () {
-                              // setState(() {
-                              //   selectedIndex = index;
-                              // });
-                            },
-                          );
-                        }),
+                    if (selectedSchedule != null) ...[
+                      if (selectedSchedule!.sessions.any(
+                        (s) => s.session == "morning",
+                      )) ...[
+                        const Text(
+                          "Buổi sáng",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children:
+                                selectedSchedule!.sessions
+                                    .where((s) => s.session == 'morning')
+                                    .expand((session) => session.timeSlots)
+                                    .map((timeSlot) {
+                                      final isSelected =
+                                          selectedTimeSlotId == timeSlot.id &&
+                                          selectedSession == 'morning';
+
+                                      return TimeSlotItem(
+                                        time:
+                                            "${timeSlot.startTime} - ${timeSlot.endTime}",
+                                        isSelected: isSelected,
+                                        isBooked: timeSlot.isBooked,
+                                        onTap: () {
+                                          if (!timeSlot.isBooked) {
+                                            setState(() {
+                                              if (selectedTimeSlotId ==
+                                                      timeSlot.id &&
+                                                  selectedSession ==
+                                                      'morning') {
+                                                // Bỏ chọn nếu click vào slot đã chọn
+                                                selectedTimeSlotId = null;
+                                                selectedSession = null;
+                                              } else {
+                                                // Chọn slot mới
+                                                selectedTimeSlotId =
+                                                    timeSlot.id;
+                                                selectedSession = 'morning';
+                                              }
+                                            });
+                                          }
+                                        },
+                                      );
+                                    })
+                                    .toList(),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+
+                      if (selectedSchedule!.sessions.any(
+                        (s) => s.session == "afternoon",
+                      )) ...[
+                        const Text(
+                          "Buổi chiều",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children:
+                                selectedSchedule!.sessions
+                                    .where((s) => s.session == 'afternoon')
+                                    .expand((session) => session.timeSlots)
+                                    .map((timeSlot) {
+                                      final isSelected =
+                                          selectedTimeSlotId == timeSlot.id &&
+                                          selectedSession == 'afternoon';
+
+                                      return TimeSlotItem(
+                                        time:
+                                            "${timeSlot.startTime} - ${timeSlot.endTime}",
+                                        isSelected: isSelected,
+                                        isBooked: timeSlot.isBooked,
+                                        onTap: () {
+                                          if (!timeSlot.isBooked) {
+                                            if (!timeSlot.isBooked) {
+                                              setState(() {
+                                                if (selectedTimeSlotId ==
+                                                        timeSlot.id &&
+                                                    selectedSession ==
+                                                        'afternoon') {
+                                                  // Bỏ chọn nếu click vào slot đã chọn
+                                                  selectedTimeSlotId = null;
+                                                  selectedSession = null;
+                                                } else {
+                                                  // Chọn slot mới
+                                                  selectedTimeSlotId =
+                                                      timeSlot.id;
+                                                  selectedSession = 'afternoon';
+                                                }
+                                              });
+                                            }
+                                          }
+                                        },
+                                      );
+                                    })
+                                    .toList(),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+                    ] else ...[
+                      const Center(
+                        child: Text(
+                          "Không có lịch khám cho ngày này",
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
                       ),
-                    ),
+                    ],
                   ],
                 ),
               ),
@@ -361,7 +509,20 @@ class _DoctorDetailState extends State<DoctorDetail> {
                         height: 48,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, AppointmentBooking.id);
+                            final slotInfo = getSelectedSlotInfo();
+                            if (slotInfo != null) {
+                              Navigator.pushNamed(
+                                context,
+                                AppointmentBooking.id,
+                                arguments: slotInfo,
+                              );
+                            } else {
+                              Toast.show(
+                                context: context,
+                                message: 'Vui lòng chọn ngày và khung giờ khám',
+                                type: ToastType.error,
+                              );
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: GlobalColors.mainColor,
