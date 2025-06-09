@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:my_flutter_app/providers/auth_provider.dart';
 import 'package:my_flutter_app/screens/account/account_info.dart';
 import 'package:my_flutter_app/screens/auth/login_screen.dart';
-import 'package:my_flutter_app/screens/auth/register_info_form_screen.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/utils/global.images.icons.dart';
 import 'package:my_flutter_app/widgets/custom_card.dart';

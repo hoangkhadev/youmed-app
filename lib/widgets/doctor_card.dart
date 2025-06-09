@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/models/doctor_model.dart';
-
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/widgets/scrollable_screen_wrapper.dart';
+import 'package:my_flutter_app/screens/appointment/appointment_booking.dart';
 
 class DoctorCard extends StatelessWidget {
   final DoctorModel doctor;
@@ -91,7 +91,9 @@ class DoctorCard extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, AppointmentBooking.id);
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: GlobalColors.mainColor,
                   shape: RoundedRectangleBorder(
@@ -100,7 +102,10 @@ class DoctorCard extends StatelessWidget {
                 ),
                 child: Text(
                   'Đặt lịch ngay',
-                  style: TextStyle(color: GlobalColors.whiteColor),
+                  style: TextStyle(
+                    color: GlobalColors.whiteColor,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

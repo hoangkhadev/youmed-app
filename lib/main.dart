@@ -39,6 +39,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Nunito',
         scaffoldBackgroundColor: GlobalColors.bgColor,
+        radioTheme: RadioThemeData(
+          fillColor: MaterialStateProperty.all(GlobalColors.mainColor),
+        ),
       ),
       initialRoute: SplashScreen.id,
       routes: AppRoutes.routes,

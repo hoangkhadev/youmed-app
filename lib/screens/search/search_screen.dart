@@ -12,7 +12,6 @@ import 'package:my_flutter_app/widgets/toast.dart';
 class SearchScreen extends StatefulWidget {
   static final id = 'search_screen';
   const SearchScreen({super.key});
-
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
@@ -145,21 +144,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    FilterChipWidget(
-                      icon: Icons.compass_calibration,
-                      label: "Tất cả",
-                    ),
-                    SizedBox(width: 8),
-                    FilterChipWidget(
-                      icon: Icons.location_on_outlined,
-                      label: "Nơi khám: Tất cả",
-                    ),
-                    SizedBox(width: 8),
-                    FilterChipWidget(icon: Icons.tune, label: "Bộ lọc"),
-                  ],
-                ),
+                child: FilterChipsRow(),
               ),
             ),
 

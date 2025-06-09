@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
 import 'package:my_flutter_app/models/schedule_model.dart';
+import 'package:my_flutter_app/utils/global.colors.dart';
 
 class ScheduleWeekDays extends StatefulWidget {
   final Function(DateTime) onDateSelected;
@@ -34,7 +35,7 @@ class _ScheduleWeekDaysState extends State<ScheduleWeekDays> {
         });
 
     return Row(
-      children: List.generate(7, (index) {
+      children: List.generate(14, (index) {
         final date = today.add(Duration(days: index));
         final isSelected =
             selectedDate.day == date.day &&
@@ -51,40 +52,46 @@ class _ScheduleWeekDaysState extends State<ScheduleWeekDays> {
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 6),
             padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: isSelected ? Colors.blue : Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.blue),
-            ),
+
             child: Column(
               children: [
                 Text(
                   weekdayNames[date.weekday % 7],
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: isSelected ? Colors.white : Colors.black,
-                  ),
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 4),
                 CircleAvatar(
+                  radius: 25,
                   backgroundColor:
-                      isSelected ? Colors.white : Colors.blue.shade100,
-                  child: Text(
-                    date.day.toString().padLeft(2, '0'),
-                    style: TextStyle(
-                      color: isSelected ? Colors.blue : Colors.black,
+                      isSelected ? GlobalColors.mainColor : Colors.grey[200],
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Text(
+                      date.day.toString().padLeft(2, '0'),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color:
+                            isSelected ? GlobalColors.whiteColor : Colors.black,
+                      ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  scheduleForSelectedDate != null
-                      ? "${scheduleForSelectedDate.sessions.fold<int>(0, (prev, session) => prev + session.timeSlots.length)} slot"
-                      : "0 slot",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: isSelected ? Colors.white : Colors.green,
+
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 0, 206, 86),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Text(
+                    scheduleForSelectedDate != null
+                        ? "${scheduleForSelectedDate.sessions.fold<int>(0, (prev, session) => prev + session.timeSlots.length)} slot"
+                        : "0 slot",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: isSelected ? Colors.white : Colors.green,
+                    ),
                   ),
                 ),
               ],
