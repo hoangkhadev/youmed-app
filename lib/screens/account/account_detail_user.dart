@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/screens/account/account_update_form_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'package:my_flutter_app/providers/auth_provider.dart';
@@ -63,7 +64,12 @@ class _AccountDetailInfoState extends State<AccountDetailInfo> {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          AccountUpdateFormScreen.id,
+                        );
+                      },
                       child: Text(
                         'Điều chỉnh',
                         style: TextStyle(
@@ -107,7 +113,7 @@ class _AccountDetailInfoState extends State<AccountDetailInfo> {
             child: infoItem(
               'Mã bệnh nhân',
               context,
-              auth.currentUser!.id,
+              auth.currentUser?.id ?? "",
               showTrailing: true,
             ),
           ),
@@ -134,7 +140,7 @@ class _AccountDetailInfoState extends State<AccountDetailInfo> {
             child: infoItem(
               'Họ tên',
               context,
-              auth.currentUser!.fullName,
+              auth.currentUser?.fullName ?? "",
               showTrailing: false,
             ),
           ),
@@ -152,7 +158,7 @@ class _AccountDetailInfoState extends State<AccountDetailInfo> {
             child: infoItem(
               'Ngày sinh',
               context,
-              auth.currentUser!.dobFormated,
+              auth.currentUser?.dobFormated ?? "",
               showTrailing: false,
             ),
           ),
@@ -161,7 +167,11 @@ class _AccountDetailInfoState extends State<AccountDetailInfo> {
             child: infoItem(
               'Giới tính',
               context,
-              auth.currentUser!.gender == 'Male' ? 'Name' : 'Nữ',
+              auth.currentUser?.gender == 'male'
+                  ? 'Nam'
+                  : auth.currentUser?.gender == 'female'
+                  ? 'Nữ'
+                  : '',
               showTrailing: false,
             ),
           ),
@@ -170,7 +180,7 @@ class _AccountDetailInfoState extends State<AccountDetailInfo> {
             child: infoItem(
               'Địa chỉ',
               context,
-              auth.currentUser!.address,
+              auth.currentUser?.address ?? "",
               showTrailing: false,
             ),
           ),
@@ -179,7 +189,7 @@ class _AccountDetailInfoState extends State<AccountDetailInfo> {
             child: infoItem(
               'Email',
               context,
-              auth.currentUser!.email,
+              auth.currentUser?.email ?? "",
               showTrailing: false,
             ),
           ),

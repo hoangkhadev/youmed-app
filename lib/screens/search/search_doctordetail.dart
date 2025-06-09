@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/models/doctor_model.dart';
 import '../../screens/appointment/appointment_booking.dart';
 import '../../utils/global.images.icons.dart';
 import '../../widgets/schedule_weekdays.dart';
 import '../../utils/global.colors.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class DoctorDetail extends StatelessWidget {
-  const DoctorDetail({super.key});
+  final DoctorModel doctor;
+  const DoctorDetail({super.key, required this.doctor});
+
+  static final id = 'doctor_detail_screen';
 
   @override
   Widget build(BuildContext context) {
-    const doctorName = "Nguyễn Văn A";
-    const doctorExperience = 10;
-    const doctorSpecialty = "Nội khoa";
-    const doctorAddress = "123 Đường Lê Lợi, Quận 1, TP.HCM";
-    const doctorDescription =
-        "Bác sĩ chuyên khám và điều trị các bệnh nội khoa.";
-    const doctorEducation = "Đại học Y Dược TP.HCM";
-    const doctorExperienceDetails =
-        "10 năm công tác tại Bệnh viện Đại học Y Dược TP.HCM";
-    const doctorImageUrl = "https://example.com/doctor_avatar.png";
+    print(">> check doctor: ${doctor.schedules}");
 
     return SafeArea(
       child: Scaffold(
@@ -38,7 +34,7 @@ class DoctorDetail extends StatelessWidget {
             'Thông tin bác sĩ',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 14,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -77,7 +73,7 @@ class DoctorDetail extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 36,
-                      backgroundImage: NetworkImage(doctorImageUrl),
+                      backgroundImage: NetworkImage(doctor.avatarUrl),
                     ),
                     const SizedBox(width: 16),
                     Expanded(
@@ -85,7 +81,7 @@ class DoctorDetail extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            doctorName,
+                            doctor.user.fullName,
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -95,7 +91,7 @@ class DoctorDetail extends StatelessWidget {
                             'Bác sĩ',
                             style: TextStyle(color: Colors.blue),
                           ),
-                          Text('$doctorExperience năm kinh nghiệm'),
+                          Text('${doctor.experienceYears} năm kinh nghiệm'),
                           const SizedBox(height: 4),
                           Container(
                             padding: const EdgeInsets.symmetric(
@@ -106,7 +102,12 @@ class DoctorDetail extends StatelessWidget {
                               color: Colors.grey[200],
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: Text(doctorSpecialty),
+                            child: Text(
+                              doctor.specializations
+                                  .map((e) => e.name)
+                                  .toList()
+                                  .join(', '),
+                            ),
                           ),
                         ],
                       ),
@@ -135,8 +136,9 @@ class DoctorDetail extends StatelessWidget {
                         children: [
                           ScheduleWeekDays(
                             onDateSelected: (date) {
-                              print("Selected date: $date");
+                              // print("Selected date: $date");
                             },
+                            schedules: doctor.schedules.toList(),
                           ),
                         ],
                       ),
@@ -206,20 +208,23 @@ class DoctorDetail extends StatelessWidget {
                       "Giới thiệu",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 8),
-                    Text(doctorDescription),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 6),
+                    Html(data: doctor.bio),
+                    const SizedBox(height: 6),
+                    if (doctor.position.isNotEmpty) ...[
+                      const Text(
+                        "Chức vụ",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(doctor.position),
+                      const SizedBox(height: 6),
+                    ],
                     const Text(
-                      "Quá trình học vấn",
+                      "Công tác",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    Text(doctorEducation),
-                    const SizedBox(height: 12),
-                    const Text(
-                      "Quá trình công tác",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(doctorExperienceDetails),
+                    const SizedBox(height: 6),
+                    Text(doctor.workplace),
                   ],
                 ),
               ),

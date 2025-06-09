@@ -60,7 +60,7 @@ class _AccountInfoState extends State<AccountInfo> {
         padding: EdgeInsets.all(12),
         child: Column(
           children: [
-            InkWell(
+            GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, AccountDetailInfo.id);
               },
@@ -88,7 +88,7 @@ class _AccountInfoState extends State<AccountInfo> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            auth.currentUser!.fullName,
+                            auth.currentUser?.fullName ?? "",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -96,7 +96,7 @@ class _AccountInfoState extends State<AccountInfo> {
                           ),
                           SizedBox(height: 1),
                           Text(
-                            auth.currentUser!.phone,
+                            auth.currentUser?.phone ?? "",
                             style: TextStyle(
                               color: GlobalColors.subTextColor,
                               fontSize: 14,
@@ -104,7 +104,7 @@ class _AccountInfoState extends State<AccountInfo> {
                           ),
                           SizedBox(height: 1),
                           Text(
-                            auth.currentUser!.dobFormated,
+                            auth.currentUser?.dobFormated ?? "",
                             style: TextStyle(
                               color: GlobalColors.subTextColor,
                               fontSize: 14,

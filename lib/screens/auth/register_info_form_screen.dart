@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/models/user_model.dart';
+import 'package:provider/provider.dart';
+import 'package:my_flutter_app/providers/auth_provider.dart';
 import 'package:my_flutter_app/screens/main_screen.dart';
+import 'package:my_flutter_app/services/user_service.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/widgets/profile_form.dart';
 import 'package:my_flutter_app/widgets/scrollable_screen_wrapper.dart';
@@ -19,7 +23,39 @@ class _RegisterInfoFormScreenState extends State<RegisterInfoFormScreen> {
 
   void _handleSubmit() async {
     if (!_formKey.currentState!.validate()) return;
-    Navigator.pushReplacementNamed(context, MainScreen.id, arguments: 0);
+    final formData = profileFormKey.currentState?.getFormData();
+    final userService = UserService();
+
+    final authProvider = context.read<AuthProvider>();
+    final currentUser = authProvider.currentUser;
+
+    final userToUpdate = UserModel(
+      id: currentUser?.id ?? "1232",
+      fullName: formData!['full_name'],
+      phone: formData['phone'],
+      dob: formData['dob'],
+      email: formData['email'],
+      gender: formData['gender'],
+      city: formData['city'],
+      district: formData['district'],
+      ward: formData['ward'],
+      address2: formData['address2'],
+    );
+
+    final updatedUser = await userService.update(userToUpdate);
+    if (updatedUser != null) {
+      if (mounted) {
+        await authProvider.refreshCurrentUser();
+      }
+
+      if (mounted) {
+        Navigator.pushReplacementNamed(
+          context,
+          MainScreen.id,
+          arguments: {'currentIndex': 0},
+        );
+      }
+    }
   }
 
   @override
@@ -54,7 +90,11 @@ class _RegisterInfoFormScreenState extends State<RegisterInfoFormScreen> {
                 ),
               ),
               SizedBox(height: 20),
-              ProfileForm(formKey: _formKey, key: profileFormKey),
+              ProfileForm(
+                formKey: _formKey,
+                key: profileFormKey,
+                initialData: context.watch<AuthProvider>().currentUser,
+              ),
             ],
           ),
         ),

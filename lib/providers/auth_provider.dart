@@ -39,4 +39,12 @@ class AuthProvider with ChangeNotifier {
     _user = null;
     notifyListeners();
   }
+
+  Future<void> refreshCurrentUser() async {
+    final user = await _authService.getCurrentUser();
+    if (user != null) {
+      _user = user;
+      notifyListeners();
+    }
+  }
 }

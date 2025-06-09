@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/models/doctor_model.dart';
 
 import 'package:my_flutter_app/utils/global.colors.dart';
+import 'package:my_flutter_app/widgets/scrollable_screen_wrapper.dart';
 
 class DoctorCard extends StatelessWidget {
-  final Map<String, dynamic> doctor;
-  final VoidCallback? onBookingPressed;
+  final DoctorModel doctor;
 
-  const DoctorCard({super.key, required this.doctor, this.onBookingPressed});
+  const DoctorCard({super.key, required this.doctor});
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +22,17 @@ class DoctorCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(radius: 32, backgroundImage: AssetImage('')),
+                CircleAvatar(
+                  radius: 32,
+                  backgroundImage: NetworkImage(doctor.avatarUrl),
+                ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Tran Hoang Kha',
+                        doctor.user.fullName,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -36,24 +40,35 @@ class DoctorCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '25 năm kinh nghiệm',
+                        '${doctor.experienceYears} năm kinh nghiệm',
                         style: TextStyle(color: GlobalColors.grayColor),
                       ),
                       const SizedBox(height: 6),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          'Khoa Nhi',
-                          style: const TextStyle(fontSize: 13),
+
+                      ScrollableScreenWrapper(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children:
+                              doctor.specializations.map<Widget>((item) {
+                                return Container(
+                                  margin: const EdgeInsets.only(right: 8),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade200,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Text(
+                                    item.name,
+                                    style: const TextStyle(fontSize: 13),
+                                  ),
+                                );
+                              }).toList(),
                         ),
                       ),
+
                       const SizedBox(height: 8),
                     ],
                   ),
@@ -66,7 +81,7 @@ class DoctorCard extends StatelessWidget {
                 const SizedBox(width: 4),
                 Expanded(
                   child: Text(
-                    'Hồ Chí Minh',
+                    doctor.user.address,
                     style: const TextStyle(fontSize: 13, color: Colors.black87),
                   ),
                 ),
@@ -76,7 +91,7 @@ class DoctorCard extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: ElevatedButton(
-                onPressed: onBookingPressed ?? () {},
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: GlobalColors.mainColor,
                   shape: RoundedRectangleBorder(

@@ -25,7 +25,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final loading = LoadingOverlay();
 
   bool _isObscure = true;
-  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -46,22 +45,32 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final authProvider = context.read<AuthProvider>();
       await authProvider.login(phone, password);
+      loading.hide();
+      if (!mounted) return;
+      await Toast.show(
+        context: context,
+        message: 'Đăng nhập thành công',
+        type: ToastType.success,
+        duration: 1,
+      );
 
-      if (mounted) {
-        Navigator.pushReplacementNamed(
-          context,
-          MainScreen.id,
-          arguments: {'currentIndex': 0},
-        );
-      }
+      if (!mounted) return;
+      FocusScope.of(context).unfocus();
+
+      if (!mounted) return;
+      Navigator.pushReplacementNamed(
+        context,
+        MainScreen.id,
+        arguments: {'currentIndex': 0},
+      );
     } catch (e) {
-      if (mounted) {
-        Toast.show(
-          context: context,
-          message: e.toString(),
-          type: ToastType.error,
-        );
-      }
+      loading.hide();
+
+      await Toast.show(
+        context: context,
+        message: e.toString(),
+        type: ToastType.error,
+      );
     } finally {
       loading.hide();
     }
@@ -273,16 +282,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
               ElevatedButton(
                 onPressed:
-                    _isLoading ||
-                            _phoneController.text.trim().isEmpty ||
+                    _phoneController.text.trim().isEmpty ||
                             _passwordController.text.trim().isEmpty
                         ? null
                         : _handleLogin,
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(double.infinity, 50),
-                  backgroundColor: GlobalColors.mainColor.withValues(
-                    alpha: _isLoading ? 0.5 : 1,
-                  ),
+                  backgroundColor: GlobalColors.mainColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -302,16 +308,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    _isLoading
-                        ? SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 1,
-                          ),
-                        )
-                        : SizedBox.shrink(),
                   ],
                 ),
               ),

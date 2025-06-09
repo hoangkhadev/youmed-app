@@ -59,4 +59,27 @@ class AuthService {
   Future<void> logout() async {
     await AppStorage.clearAll();
   }
+
+  Future<UserModel?> getCurrentUser() async {
+    final token = await AppStorage.getAccessToken();
+    if (token == null) throw 'Token không tồn tại';
+
+    final api = ApiClient(accessToken: token);
+    try {
+      final res = await api.get('auth/me');
+
+      if (res.statusCode == 200) {
+        final data = jsonDecode(res.body);
+        final user = UserModel.fromJson(data);
+
+        await AppStorage.saveUser(jsonEncode(user));
+        return user;
+      } else {
+        final error = jsonDecode(res.body);
+        throw error['message'] ?? 'Lỗi khi lấy thông tin người dùng';
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

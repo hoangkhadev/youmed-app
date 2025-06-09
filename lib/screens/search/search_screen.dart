@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/models/doctor_model.dart';
 import 'package:my_flutter_app/screens/search/search_doctordetail.dart';
+import 'package:my_flutter_app/services/doctor_service.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 
 import 'package:my_flutter_app/widgets/doctor_card.dart';
 import 'package:my_flutter_app/widgets/filter_chip.dart';
+import 'package:my_flutter_app/widgets/overlay.dart';
+import 'package:my_flutter_app/widgets/toast.dart';
 
 class SearchScreen extends StatefulWidget {
   static final id = 'search_screen';
@@ -17,11 +21,65 @@ class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
 
+  final DoctorService _doctorService = DoctorService();
+  List<DoctorModel> _doctors = [];
+  List<DoctorModel> filteredDoctors = [];
+  final loading = LoadingOverlay();
+
   @override
   void dispose() {
     _searchController.dispose();
     _searchFocusNode.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _fetchDoctors();
+    });
+    _searchController.addListener(() {
+      filtersDoctor(_searchController.text);
+    });
+  }
+
+  void filtersDoctor(String query) {
+    final result =
+        _doctors.where((d) {
+          final name = d.user.fullName.toLowerCase();
+          final specialty =
+              d.specializations.map((e) => e.name.toLowerCase()).toList();
+          final q = query.toLowerCase();
+          final matchSpecialty = specialty.any((spec) => spec.contains(q));
+
+          return name.contains(q) || matchSpecialty;
+        }).toList();
+
+    setState(() {
+      filteredDoctors = result;
+    });
+  }
+
+  Future<void> _fetchDoctors() async {
+    try {
+      loading.show(context);
+      final doctors = await _doctorService.getAllDoctors();
+      if (doctors.isNotEmpty) {
+        loading.hide();
+        setState(() {
+          _doctors = doctors;
+          filteredDoctors = doctors;
+        });
+      }
+    } catch (e) {
+      if (!mounted) return;
+      await Toast.show(
+        context: context,
+        message: e.toString(),
+        type: ToastType.error,
+      );
+    }
   }
 
   @override
@@ -107,14 +165,16 @@ class _SearchScreenState extends State<SearchScreen> {
 
             Expanded(
               child: ListView.builder(
-                itemCount: doctors.length,
+                itemCount: filteredDoctors.length,
                 itemBuilder: (context, index) {
-                  final doctor = doctors[index];
+                  final doctor = filteredDoctors[index];
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => DoctorDetail()),
+                        MaterialPageRoute(
+                          builder: (_) => DoctorDetail(doctor: doctor),
+                        ),
                       );
                     },
                     child: DoctorCard(doctor: doctor),
@@ -129,95 +189,95 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 }
 
-final doctors = [
-  {
-    'id': '1',
-    'name': 'Vũ Thị Hạnh Thư',
-    'title': 'BS. CK1',
-    'avatarUrl': 'assets/images/doctor1.png',
-    'specialty': 'Sản phụ khoa',
-    'specialties': ['Sản phụ khoa'],
-    'position': '',
-    'experience': 14,
-    'department': '',
-    'address': '333 Huỳnh Tấn Phát, Quận 7, Hồ Chí Minh',
-    'schedules': [],
-    'isSaved': false,
-    'isVerified': true,
-  },
-  {
-    'id': '2',
-    'name': 'Hồ Thị Mỹ Ngọc',
-    'title': 'BS. CK1',
-    'avatarUrl': 'assets/images/doctor2.png',
-    'specialty': 'Nhi khoa',
-    'specialties': ['Nhi khoa'],
-    'position': '',
-    'experience': 7,
-    'department': '',
-    'address': '63/9A Gò Dầu, Quận Tân Phú, Hồ Chí Minh',
-    'schedules': [],
-    'isSaved': true,
-    'isVerified': false,
-  },
-  {
-    'id': '3',
-    'name': 'Vũ Thị Hạnh Thư',
-    'title': 'BS. CK1',
-    'avatarUrl': 'assets/images/doctor1.png',
-    'specialty': 'Sản phụ khoa',
-    'specialties': ['Sản phụ khoa'],
-    'position': '',
-    'experience': 14,
-    'department': '',
-    'address': '333 Huỳnh Tấn Phát, Quận 7, Hồ Chí Minh',
-    'schedules': [],
-    'isSaved': false,
-    'isVerified': true,
-  },
-  {
-    'id': '4',
-    'name': 'Vũ Thị Hạnh Thư',
-    'title': 'BS. CK1',
-    'avatarUrl': 'assets/images/doctor1.png',
-    'specialty': 'Sản phụ khoa',
-    'specialties': ['Sản phụ khoa'],
-    'position': '',
-    'experience': 14,
-    'department': '',
-    'address': '333 Huỳnh Tấn Phát, Quận 7, Hồ Chí Minh',
-    'schedules': [],
-    'isSaved': false,
-    'isVerified': true,
-  },
-  {
-    'id': '5',
-    'name': 'Vũ Thị Hạnh Thư',
-    'title': 'BS. CK1',
-    'avatarUrl': 'assets/images/doctor1.png',
-    'specialty': 'Sản phụ khoa',
-    'specialties': ['Sản phụ khoa'],
-    'position': '',
-    'experience': 14,
-    'department': '',
-    'address': '333 Huỳnh Tấn Phát, Quận 7, Hồ Chí Minh',
-    'schedules': [],
-    'isSaved': false,
-    'isVerified': true,
-  },
-  {
-    'id': '6',
-    'name': 'Vũ Thị Hạnh Thư',
-    'title': 'BS. CK1',
-    'avatarUrl': 'assets/images/doctor1.png',
-    'specialty': 'Sản phụ khoa',
-    'specialties': ['Sản phụ khoa'],
-    'position': '',
-    'experience': 14,
-    'department': '',
-    'address': '333 Huỳnh Tấn Phát, Quận 7, Hồ Chí Minh',
-    'schedules': [],
-    'isSaved': false,
-    'isVerified': true,
-  },
-];
+// final doctors = [
+//   {
+//     'id': '1',
+//     'name': 'Vũ Thị Hạnh Thư',
+//     'title': 'BS. CK1',
+//     'avatarUrl': 'assets/images/doctor1.png',
+//     'specialty': 'Sản phụ khoa',
+//     'specialties': ['Sản phụ khoa'],
+//     'position': '',
+//     'experience': 14,
+//     'department': '',
+//     'address': '333 Huỳnh Tấn Phát, Quận 7, Hồ Chí Minh',
+//     'schedules': [],
+//     'isSaved': false,
+//     'isVerified': true,
+//   },
+//   {
+//     'id': '2',
+//     'name': 'Hồ Thị Mỹ Ngọc',
+//     'title': 'BS. CK1',
+//     'avatarUrl': 'assets/images/doctor2.png',
+//     'specialty': 'Nhi khoa',
+//     'specialties': ['Nhi khoa'],
+//     'position': '',
+//     'experience': 7,
+//     'department': '',
+//     'address': '63/9A Gò Dầu, Quận Tân Phú, Hồ Chí Minh',
+//     'schedules': [],
+//     'isSaved': true,
+//     'isVerified': false,
+//   },
+//   {
+//     'id': '3',
+//     'name': 'Vũ Thị Hạnh Thư',
+//     'title': 'BS. CK1',
+//     'avatarUrl': 'assets/images/doctor1.png',
+//     'specialty': 'Sản phụ khoa',
+//     'specialties': ['Sản phụ khoa'],
+//     'position': '',
+//     'experience': 14,
+//     'department': '',
+//     'address': '333 Huỳnh Tấn Phát, Quận 7, Hồ Chí Minh',
+//     'schedules': [],
+//     'isSaved': false,
+//     'isVerified': true,
+//   },
+//   {
+//     'id': '4',
+//     'name': 'Vũ Thị Hạnh Thư',
+//     'title': 'BS. CK1',
+//     'avatarUrl': 'assets/images/doctor1.png',
+//     'specialty': 'Sản phụ khoa',
+//     'specialties': ['Sản phụ khoa'],
+//     'position': '',
+//     'experience': 14,
+//     'department': '',
+//     'address': '333 Huỳnh Tấn Phát, Quận 7, Hồ Chí Minh',
+//     'schedules': [],
+//     'isSaved': false,
+//     'isVerified': true,
+//   },
+//   {
+//     'id': '5',
+//     'name': 'Vũ Thị Hạnh Thư',
+//     'title': 'BS. CK1',
+//     'avatarUrl': 'assets/images/doctor1.png',
+//     'specialty': 'Sản phụ khoa',
+//     'specialties': ['Sản phụ khoa'],
+//     'position': '',
+//     'experience': 14,
+//     'department': '',
+//     'address': '333 Huỳnh Tấn Phát, Quận 7, Hồ Chí Minh',
+//     'schedules': [],
+//     'isSaved': false,
+//     'isVerified': true,
+//   },
+//   {
+//     'id': '6',
+//     'name': 'Vũ Thị Hạnh Thư',
+//     'title': 'BS. CK1',
+//     'avatarUrl': 'assets/images/doctor1.png',
+//     'specialty': 'Sản phụ khoa',
+//     'specialties': ['Sản phụ khoa'],
+//     'position': '',
+//     'experience': 14,
+//     'department': '',
+//     'address': '333 Huỳnh Tấn Phát, Quận 7, Hồ Chí Minh',
+//     'schedules': [],
+//     'isSaved': false,
+//     'isVerified': true,
+//   },
+// ];

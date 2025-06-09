@@ -1,8 +1,14 @@
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/services.dart';
+import 'package:my_flutter_app/models/locations_model.dart';
 
 import 'package:my_flutter_app/models/user_model.dart';
+import 'package:my_flutter_app/screens/selected_city_screen.dart';
+import 'package:my_flutter_app/screens/selected_district_screen.dart';
+import 'package:my_flutter_app/screens/selected_ward_screen.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/utils/global.images.icons.dart';
 import 'package:my_flutter_app/widgets/custom_bottom_sheet.dart';
@@ -10,14 +16,21 @@ import 'package:my_flutter_app/widgets/custom_bottom_sheet.dart';
 class ProfileForm extends StatefulWidget {
   final UserModel? initialData;
   final GlobalKey<FormState> formKey;
+  final bool isRegister;
 
-  const ProfileForm({super.key, this.initialData, required this.formKey});
+  const ProfileForm({
+    super.key,
+    this.initialData,
+    required this.formKey,
+    this.isRegister = true,
+  });
 
   @override
   State<ProfileForm> createState() => ProfileFormState();
 }
 
 class ProfileFormState extends State<ProfileForm> {
+  late bool _isRegister;
   late TextEditingController _nameController;
   late TextEditingController _phoneController;
   late TextEditingController _dobController;
@@ -26,19 +39,26 @@ class ProfileFormState extends State<ProfileForm> {
   late TextEditingController _districtController;
   late TextEditingController _wardController;
   late TextEditingController _address2Controller;
-
   String gender = 'male';
+  String formatDate(String inputDate) {
+    try {
+      DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(inputDate);
+      return DateFormat('yyyy/MM/dd').format(parsedDate);
+    } catch (e) {
+      return inputDate;
+    }
+  }
 
   Map<String, dynamic> getFormData() {
     return {
-      'fullName': _nameController.text,
-      'phone': _phoneController.text,
-      'dob': _dobController.text,
-      'email': _emailController.text,
+      'full_name': _nameController.text.trim(),
+      'phone': _phoneController.text.trim(),
+      'dob': formatDate(_dobController.text.trim()),
+      'email': _emailController.text.trim(),
       'city': _cityController.text,
       'district': _districtController.text,
       'ward': _wardController.text,
-      'address2': _address2Controller.text,
+      'address2': _address2Controller.text.trim(),
       'gender': gender,
     };
   }
@@ -56,6 +76,11 @@ class ProfileFormState extends State<ProfileForm> {
     super.dispose();
   }
 
+  List<City> cities = [];
+  City? selectedCity;
+  District? selectedDistrict;
+  Ward? selectedWard;
+
   @override
   void initState() {
     super.initState();
@@ -65,12 +90,89 @@ class ProfileFormState extends State<ProfileForm> {
     _phoneController = TextEditingController(text: data?.phone ?? '');
     _dobController = TextEditingController(text: data?.dobFormated ?? '');
     _emailController = TextEditingController(text: data?.email ?? '');
-    _cityController = TextEditingController(text: data?.city ?? '');
-    _districtController = TextEditingController(text: data?.district ?? '');
-    _wardController = TextEditingController(text: data?.ward ?? '');
     _address2Controller = TextEditingController(text: data?.address2 ?? '');
-
     gender = data?.gender ?? 'male';
+
+    _cityController = TextEditingController();
+    _districtController = TextEditingController();
+    _wardController = TextEditingController();
+
+    _isRegister = widget.isRegister;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeLocationData(data);
+    });
+  }
+
+  Future<void> _initializeLocationData(UserModel? data) async {
+    await loadCities();
+
+    if (data != null && cities.isNotEmpty) {
+      await _setLocationFromData(data);
+    }
+  }
+
+  Future<void> loadCities() async {
+    try {
+      final locationData = await rootBundle.loadString('assets/locations.json');
+      final List<dynamic> jsonList = jsonDecode(locationData);
+
+      setState(() {
+        cities =
+            jsonList
+                .where((json) => json != null)
+                .map((json) => City.fromJson(json as Map<String, dynamic>))
+                .toList();
+      });
+    } catch (e) {
+      setState(() {
+        cities = []; // Set về list rỗng nếu có lỗi
+      });
+    }
+  }
+
+  Future<void> _setLocationFromData(UserModel data) async {
+    if (data.city.isNotEmpty == true) {
+      selectedCity = cities.cast<City?>().firstWhere(
+        (city) => city!.name.toLowerCase() == data.city.toLowerCase(),
+        orElse: () => null,
+      );
+
+      if (selectedCity != null) {
+        _cityController.text = selectedCity!.name;
+
+        // Set district
+        if (data.district.isNotEmpty == true) {
+          selectedDistrict = selectedCity!.districts
+              .cast<District?>()
+              .firstWhere(
+                (district) =>
+                    district?.name.toLowerCase() == data.district.toLowerCase(),
+                orElse: () => null,
+              );
+
+          if (selectedDistrict != null) {
+            _districtController.text = selectedDistrict!.name;
+
+            // Set ward
+            if (data.ward.isNotEmpty == true) {
+              selectedWard = selectedDistrict!.wards.cast<Ward?>().firstWhere(
+                (ward) => ward!.name.toLowerCase() == data.ward.toLowerCase(),
+                orElse: () => null,
+              );
+
+              if (selectedWard != null) {
+                _wardController.text = selectedWard!.name;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -96,6 +198,7 @@ class ProfileFormState extends State<ProfileForm> {
           buildTextField(
             label: 'Số điện thoại',
             hintText: '0901234567',
+            readOnly: _isRegister,
             controller: _phoneController,
             keyboardType: TextInputType.phone,
             validator: (value) {
@@ -124,7 +227,12 @@ class ProfileFormState extends State<ProfileForm> {
             controller: _dobController,
             readOnly: true,
             suffixIcon: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                CustomBottomSheet.show(
+                  context: context,
+                  child: buildDatePicker(controller: _dobController),
+                );
+              },
               icon: Image.asset(
                 GlobalImageIcons.dateTimePickerIcon,
                 width: 26,
@@ -139,7 +247,7 @@ class ProfileFormState extends State<ProfileForm> {
             },
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'Vui chọn ngày sinh';
+                return 'Vui lòng chọn ngày sinh';
               }
               return null;
             },
@@ -162,6 +270,131 @@ class ProfileFormState extends State<ProfileForm> {
               }
               return null;
             },
+          ),
+          buildTextField(
+            label: 'Tỉnh/Thành phố',
+            hintText: 'Chọn Tỉnh/Thành phố',
+            controller: _cityController,
+            readOnly: true,
+            suffixIcon: Icon(
+              Icons.arrow_forward_ios,
+              size: 18,
+              color: GlobalColors.grayColor,
+            ),
+            onTap: () async {
+              final result = await Navigator.push<City>(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (_) => SelectedCityScreen(
+                        cities: cities,
+                        selectedCity: selectedCity,
+                      ),
+                ),
+              );
+              if (result != null) {
+                setState(() {
+                  selectedCity = result;
+                  _cityController.text = result.name;
+
+                  selectedDistrict = null;
+                  selectedWard = null;
+                  _districtController.text = '';
+                  _wardController.text = '';
+                });
+              }
+            },
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Vui lòng chọn tỉnh/thành phố';
+              }
+              return null;
+            },
+          ),
+          buildTextField(
+            label: 'Quận/Huyện',
+            hintText: 'Chọn Quận/Huyện',
+            controller: _districtController,
+            readOnly: true,
+            suffixIcon: Icon(
+              Icons.arrow_forward_ios,
+              size: 18,
+              color: GlobalColors.grayColor,
+            ),
+            onTap: () async {
+              final districtResult = await Navigator.push<District>(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (_) => SelectedDistrictScreen(
+                        districts:
+                            selectedCity!
+                                .districts, // danh sách quận huyện của thành phố
+                        selectedDistrict: selectedDistrict,
+                      ),
+                ),
+              );
+
+              if (districtResult != null) {
+                setState(() {
+                  selectedDistrict = districtResult;
+                  _districtController.text = districtResult.name;
+
+                  selectedWard = null;
+                  _wardController.text = '';
+                });
+              }
+            },
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Vui lòng chọn quận/huyện';
+              }
+              return null;
+            },
+          ),
+          buildTextField(
+            label: 'Phường/Xã',
+            hintText: 'Chọn Phường/Xã',
+            controller: _wardController,
+            readOnly: true,
+            suffixIcon: Icon(
+              Icons.arrow_forward_ios,
+              size: 18,
+              color: GlobalColors.grayColor,
+            ),
+            onTap: () async {
+              final wardResult = await Navigator.push<Ward>(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (_) => SelectedWardScreen(
+                        wards:
+                            selectedDistrict!
+                                .wards, // danh sách quận huyện của thành phố
+                        selectedWard: selectedWard,
+                      ),
+                ),
+              );
+
+              if (wardResult != null) {
+                setState(() {
+                  selectedWard = wardResult;
+                  _wardController.text = wardResult.name;
+                });
+              }
+            },
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Vui lòng chọn phường/xã';
+              }
+              return null;
+            },
+          ),
+          buildTextField(
+            label: 'Số nhà, tên đường',
+            hintText: 'Ví dụ: Số 523, Đường Nguyễn Văn A',
+            readOnly: false,
+            controller: _address2Controller,
           ),
         ],
       ),
@@ -218,6 +451,10 @@ class ProfileFormState extends State<ProfileForm> {
                 fontWeight: FontWeight.w500,
               ),
               suffixIcon: suffixIcon,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: Colors.grey.shade300, width: 1.5),
+              ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(color: Colors.grey.shade300, width: 1.5),
@@ -230,6 +467,7 @@ class ProfileFormState extends State<ProfileForm> {
                 ),
               ),
               focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(color: Colors.red.shade800, width: 1.5),
               ),
             ),

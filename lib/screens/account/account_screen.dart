@@ -75,7 +75,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  auth.currentUser!.fullName,
+                                  auth.currentUser?.fullName ?? "",
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w800,
@@ -83,7 +83,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 ),
                                 SizedBox(height: 2),
                                 Text(
-                                  auth.currentUser!.phone,
+                                  auth.currentUser?.phone ?? "",
                                   style: TextStyle(
                                     color: GlobalColors.subTextColor,
                                     fontSize: 14,
@@ -196,16 +196,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         'Liên hệ & hỗ trợ',
                         showTrailing: false,
                       ),
-                      accountItem(
-                        GlobalImageIcons.caiDatIcon,
-                        'Cài đặt',
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            RegisterInfoFormScreen.id,
-                          );
-                        },
-                      ),
+                      accountItem(GlobalImageIcons.caiDatIcon, 'Cài đặt'),
                       if (auth.isLoggedIn)
                         accountItem(
                           onTap: () async {

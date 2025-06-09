@@ -18,7 +18,7 @@ class UserModel {
     ward,
     district,
     city,
-  ].where((e) => e != null && e.trim().isNotEmpty).join(', ');
+  ].where((e) => e != null && e.isNotEmpty && e.trim().isNotEmpty).join(', ');
 
   String get dobFormated {
     try {
@@ -55,7 +55,7 @@ class UserModel {
       city: address['city'] ?? '',
       district: address['district'] ?? '',
       ward: address['ward'] ?? '',
-      address2: address['address2'],
+      address2: address['address2'] ?? '',
     );
   }
 

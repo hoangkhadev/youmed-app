@@ -45,7 +45,7 @@ class HomeHeader extends StatelessWidget {
               child: Row(
                 children: [
                   auth.isLoggedIn
-                      ? avatarFromName(auth.currentUser!.fullName)
+                      ? avatarFromName(auth.currentUser?.fullName ?? '')
                       : Image.asset(
                         GlobalImageIcons.userIcon,
                         width: 24,
@@ -67,7 +67,7 @@ class HomeHeader extends StatelessWidget {
                       ),
                       Text(
                         auth.isLoggedIn
-                            ? auth.currentUser!.fullName
+                            ? auth.currentUser?.fullName ?? ""
                             : 'Đăng ký / Đăng nhập',
                         style: TextStyle(
                           color: GlobalColors.whiteColor,
@@ -129,13 +129,26 @@ class HomeHeader extends StatelessWidget {
 
 Widget avatarFromName(String fullName) {
   String generateInitials(String name) {
-    final words = name.trim().split(' ');
+    if (name.trim().isEmpty) return '';
+
+    final words =
+        name.trim().split(' ').where((word) => word.isNotEmpty).toList();
 
     if (words.isEmpty) return '';
-    if (words.length == 1) return words[0][0].toUpperCase();
 
-    final firstChar = words.first[0].toUpperCase();
-    final lastChar = words.last[0].toUpperCase();
+    if (words.length == 1) {
+      final word = words[0];
+      return word.isNotEmpty ? word[0].toUpperCase() : '';
+    }
+
+    final firstWord = words.first;
+    final lastWord = words.last;
+
+    if (firstWord.isEmpty || lastWord.isEmpty) return '';
+
+    final firstChar = firstWord[0].toUpperCase();
+    final lastChar = lastWord[0].toUpperCase();
+
     return '$firstChar$lastChar';
   }
 

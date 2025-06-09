@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:my_flutter_app/screens/account/account_detail_user.dart';
 import 'package:my_flutter_app/screens/account/account_info.dart';
+import 'package:my_flutter_app/screens/account/account_update_form_screen.dart';
 import 'package:my_flutter_app/screens/auth/login_screen.dart';
 import 'package:my_flutter_app/screens/auth/register_info_form_screen.dart';
 import 'package:my_flutter_app/screens/auth/register_screen.dart';
@@ -24,5 +25,6 @@ class AppRoutes {
     RegisterScreen.id: (_) => const RegisterScreen(),
     RegisterInfoFormScreen.id: (_) => const RegisterInfoFormScreen(),
     SearchScreen.id: (_) => const SearchScreen(),
+    AccountUpdateFormScreen.id: (_) => const AccountUpdateFormScreen(),
   };
 }

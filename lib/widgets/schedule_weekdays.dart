@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
+
+import 'package:my_flutter_app/models/schedule_model.dart';
 
 class ScheduleWeekDays extends StatefulWidget {
   final Function(DateTime) onDateSelected;
+  final List<ScheduleModel> schedules;
 
-  const ScheduleWeekDays({super.key, required this.onDateSelected});
+  const ScheduleWeekDays({
+    super.key,
+    required this.onDateSelected,
+    required this.schedules,
+  });
 
   @override
   State<ScheduleWeekDays> createState() => _ScheduleWeekDaysState();
@@ -16,6 +24,14 @@ class _ScheduleWeekDaysState extends State<ScheduleWeekDays> {
   Widget build(BuildContext context) {
     final today = DateTime.now();
     final weekdayNames = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+
+    final ScheduleModel? scheduleForSelectedDate = widget.schedules
+        .firstWhereOrNull((schedule) {
+          final scheduleDate = schedule.date.toLocal();
+          return scheduleDate.year == selectedDate.year &&
+              scheduleDate.month == selectedDate.month &&
+              scheduleDate.day == selectedDate.day;
+        });
 
     return Row(
       children: List.generate(7, (index) {
@@ -63,7 +79,9 @@ class _ScheduleWeekDaysState extends State<ScheduleWeekDays> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  "15 slot",
+                  scheduleForSelectedDate != null
+                      ? "${scheduleForSelectedDate.sessions.fold<int>(0, (prev, session) => prev + session.timeSlots.length)} slot"
+                      : "0 slot",
                   style: TextStyle(
                     fontSize: 12,
                     color: isSelected ? Colors.white : Colors.green,

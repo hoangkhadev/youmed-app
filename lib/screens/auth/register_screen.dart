@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/widgets/overlay.dart';
 import 'package:provider/provider.dart';
 
 import 'package:my_flutter_app/providers/auth_provider.dart';
@@ -23,8 +24,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordConfirmController =
       TextEditingController();
+  final loading = LoadingOverlay();
 
-  bool _isLoading = false;
   bool _isObscurePassword = true;
   bool _isObscurePasswordConfirm = true;
 
@@ -39,10 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _handleRegister() async {
     if (!_formKey.currentState!.validate()) return;
     FocusScope.of(context).unfocus();
-
-    setState(() {
-      _isLoading = true;
-    });
+    loading.show(context);
 
     final phone = _phoneController.text.trim();
     final password = _passwordController.text.trim();
@@ -50,45 +48,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
     try {
       await context.read<AuthProvider>().register(phone, password);
 
-      if (mounted) {
+      if (!mounted) return;
+      loading.hide();
+      await Toast.show(
+        context: context,
+        message: 'Đăng ký thành công',
+        type: ToastType.success,
+        duration: 1,
+      );
+
+      if (!mounted) return;
+      Navigator.pushReplacementNamed(context, RegisterInfoFormScreen.id);
+    } catch (e) {
+      loading.hide();
+      final messageError = e.toString();
+
+      if (!mounted) return;
+      if (messageError.contains('đã có tài khoản')) {
+        showDialog(
+          context: context,
+          builder:
+              (_) => CustomDialog(
+                onConfirm: () {
+                  Navigator.pop(context);
+                },
+                title: 'Tài khoản',
+                description: messageError,
+                cancleText: 'Đóng',
+                confirmText: 'Đăng nhập',
+              ),
+        );
+      } else {
         Toast.show(
           context: context,
-          message: 'Đăng ký thành công',
-          type: ToastType.success,
-          duration: 2,
+          message: e.toString(),
+          type: ToastType.error,
         );
-
-        Navigator.pushReplacementNamed(context, RegisterInfoFormScreen.id);
-      }
-    } catch (e) {
-      final messageError = e.toString();
-      if (mounted) {
-        if (messageError.contains('đã có tài khoản')) {
-          showDialog(
-            context: context,
-            builder:
-                (_) => CustomDialog(
-                  onConfirm: () {
-                    Navigator.pop(context);
-                  },
-                  title: 'Tài khoản',
-                  description: messageError,
-                  cancleText: 'Đóng',
-                  confirmText: 'Đăng nhập',
-                ),
-          );
-        } else {
-          Toast.show(
-            context: context,
-            message: e.toString(),
-            type: ToastType.error,
-          );
-        }
       }
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      loading.hide();
     }
   }
 
@@ -186,9 +184,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               validator: (value) {
                                 if (value == null || value.trim().isEmpty) {
                                   return 'Vui lòng nhập số điện thoại';
-                                } else if (value.trim().length != 10) {
+                                }
+
+                                String trimmedValue = value.trim();
+
+                                if (trimmedValue.length != 10) {
+                                  return 'Số điện thoại phải có đúng 10 chữ số';
+                                }
+
+                                final phoneRegex = RegExp(
+                                  r'^(0)(3|5|7|8|9)[0-9]{8}$',
+                                );
+                                if (!phoneRegex.hasMatch(trimmedValue)) {
                                   return 'Số điện thoại không hợp lệ';
                                 }
+
                                 return null;
                               },
                             ),
@@ -342,24 +352,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       ElevatedButton(
                         onPressed:
-                            _isLoading ||
-                                    _phoneController.text.trim().isEmpty ||
+                            _phoneController.text.trim().isEmpty ||
                                     _passwordController.text.trim().isEmpty ||
                                     _passwordConfirmController.text
                                         .trim()
                                         .isEmpty
                                 ? null
-                                : () {
-                                  Navigator.pushReplacementNamed(
-                                    context,
-                                    RegisterInfoFormScreen.id,
-                                  );
-                                },
+                                : _handleRegister,
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(double.infinity, 50),
-                          backgroundColor: GlobalColors.mainColor.withValues(
-                            alpha: _isLoading ? 0.5 : 1,
-                          ),
+                          backgroundColor: GlobalColors.mainColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -379,16 +381,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               ),
                             ),
-                            _isLoading
-                                ? SizedBox(
-                                  width: 24,
-                                  height: 24,
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                    strokeWidth: 1,
-                                  ),
-                                )
-                                : SizedBox.shrink(),
                           ],
                         ),
                       ),

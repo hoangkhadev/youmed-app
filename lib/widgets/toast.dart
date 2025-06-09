@@ -24,15 +24,15 @@ enum ToastType { error, success, warning }
 class Toast {
   static Flushbar? _currentFlushbar;
 
-  static void show({
+  static Future<void> show({
     required BuildContext context,
     required String message,
     required ToastType type,
-    int? duration = 3,
+    int? duration = 2,
   }) {
     _currentFlushbar?.dismiss();
 
-    Flushbar(
+    final flushbar = Flushbar(
       margin: EdgeInsets.all(12),
       borderRadius: BorderRadius.circular(12),
       backgroundColor: bgColorMap[type]!,
@@ -47,7 +47,10 @@ class Toast {
         ),
       ),
       flushbarPosition: FlushbarPosition.TOP, // Hiển thị ở trên đầu
-    ).show(context).then((_) {
+    );
+
+    _currentFlushbar = flushbar;
+    return flushbar.show(context).then((_) {
       _currentFlushbar = null;
     });
   }

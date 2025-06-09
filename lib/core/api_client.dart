@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiClient {
-  final String _baseUrl = 'https://cc78-101-53-36-58.ngrok-free.app/api';
+  final String _baseUrl = 'https://e355-101-53-36-58.ngrok-free.app/api';
 
   String? _accessToken;
 

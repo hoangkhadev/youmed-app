@@ -96,16 +96,17 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
             ),
             const SizedBox(height: 8),
 
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: ScheduleWeekDays(
-                onDateSelected: (date) {
-                  setState(() {
-                    selectedDate = date;
-                  });
-                },
-              ),
-            ),
+            // SingleChildScrollView(
+            //   scrollDirection: Axis.horizontal,
+            //   child: ScheduleWeekDays(
+            //     schedules: [],
+            //     onDateSelected: (date) {
+            //       setState(() {
+            //         selectedDate = date;
+            //       });
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),
