@@ -9,6 +9,7 @@ import 'package:my_flutter_app/screens/auth/register_info_form_screen.dart';
 import 'package:my_flutter_app/screens/auth/register_screen.dart';
 import 'package:my_flutter_app/screens/main_screen.dart';
 import 'package:my_flutter_app/screens/splash/splash.screen.dart';
+import 'package:my_flutter_app/screens/appointment/appointment_confirm.dart';
 
 class AppRoutes {
   static final routes = {
@@ -28,5 +29,6 @@ class AppRoutes {
     RegisterInfoFormScreen.id: (_) => const RegisterInfoFormScreen(),
     SearchScreen.id: (_) => const SearchScreen(),
     AccountUpdateFormScreen.id: (_) => const AccountUpdateFormScreen(),
+    AppointmentConfirm.id: (_) => const AppointmentConfirm(),
   };
 }

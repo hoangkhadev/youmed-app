@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_flutter_app/screens/appointment/appointment_confirm.dart';
 import 'package:provider/provider.dart';
 
 import 'package:my_flutter_app/providers/auth_provider.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
           fillColor: MaterialStateProperty.all(GlobalColors.mainColor),
         ),
       ),
-      initialRoute: SplashScreen.id,
+      initialRoute: AppointmentConfirm.id,
       routes: AppRoutes.routes,
     );
   }
