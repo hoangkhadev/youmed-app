@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/screens/appointment/appointment_confirm.dart';
 
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/widgets/schedule_weekdays.dart';
@@ -114,7 +115,10 @@ class _AppointmentBookingState extends State<AppointmentBooking> {
         color: Colors.white,
         child: ElevatedButton(
           onPressed: () {
-            print("Ngày đã chọn: $selectedDate");
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => AppointmentConfirm()),
+            );
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: GlobalColors.mainColor,

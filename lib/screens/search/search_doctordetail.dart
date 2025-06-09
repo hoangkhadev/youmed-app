@@ -3,6 +3,7 @@ import '../../screens/appointment/appointment_booking.dart';
 import '../../utils/global.images.icons.dart';
 import '../../widgets/schedule_weekdays.dart';
 import '../../utils/global.colors.dart';
+import 'package:my_flutter_app/screens/appointment/appointment_confirm.dart';
 
 class DoctorDetail extends StatelessWidget {
   const DoctorDetail({super.key});
