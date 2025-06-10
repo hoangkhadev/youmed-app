@@ -72,6 +72,7 @@ class _SearchScreenState extends State<SearchScreen> {
         });
       }
     } catch (e) {
+      loading.hide();
       if (!mounted) return;
       await Toast.show(
         context: context,

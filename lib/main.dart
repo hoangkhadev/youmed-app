@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:my_flutter_app/screens/appointment/appointment_confirm.dart';
 import 'package:provider/provider.dart';
 
 import 'package:my_flutter_app/providers/auth_provider.dart';
@@ -41,10 +40,10 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Nunito',
         scaffoldBackgroundColor: GlobalColors.bgColor,
         radioTheme: RadioThemeData(
-          fillColor: MaterialStateProperty.all(GlobalColors.mainColor),
+          fillColor: WidgetStateProperty.all(GlobalColors.mainColor),
         ),
       ),
-      initialRoute: AppointmentConfirm.id,
+      initialRoute: SplashScreen.id,
       routes: AppRoutes.routes,
     );
   }

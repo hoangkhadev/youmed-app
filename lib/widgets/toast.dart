@@ -36,15 +36,24 @@ class Toast {
       margin: EdgeInsets.all(12),
       borderRadius: BorderRadius.circular(12),
       backgroundColor: bgColorMap[type]!,
-      icon: iconMap[type],
       duration: Duration(seconds: duration!),
-      messageText: Text(
-        message,
-        style: TextStyle(
-          fontWeight: FontWeight.w600,
-          fontSize: 14,
-          color: Colors.white,
-        ),
+      messageText: Row(
+        children: [
+          iconMap[type] as Icon,
+          SizedBox(width: 4),
+          Expanded(
+            child: Text(
+              message,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+                color: Colors.white,
+              ),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
       ),
       flushbarPosition: FlushbarPosition.TOP, // Hiển thị ở trên đầu
     );

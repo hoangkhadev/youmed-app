@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:collection/collection.dart';
 
 import 'package:my_flutter_app/models/schedule_model.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
@@ -31,7 +30,6 @@ class _ScheduleWeekDaysState extends State<ScheduleWeekDays> {
 
   @override
   Widget build(BuildContext context) {
-    final today = DateTime.now();
     final weekdayNames = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
 
     return SingleChildScrollView(
@@ -64,7 +62,7 @@ class _ScheduleWeekDaysState extends State<ScheduleWeekDays> {
                   decoration: BoxDecoration(
                     color:
                         isSelected
-                            ? GlobalColors.mainColor.withOpacity(0.1)
+                            ? GlobalColors.mainColor.withValues(alpha: 0.1)
                             : null,
                     borderRadius: BorderRadius.circular(10),
                   ),

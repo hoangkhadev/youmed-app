@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:my_flutter_app/models/appointment_model.dart';
+import 'package:my_flutter_app/models/doctor_model.dart';
+import 'package:my_flutter_app/models/schedule_model.dart';
+import 'package:my_flutter_app/utils/utils.dart';
+import 'package:my_flutter_app/providers/auth_provider.dart';
+import 'package:my_flutter_app/screens/home/home_screen.dart';
+import 'package:my_flutter_app/services/appointment_service.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
-import 'package:my_flutter_app/utils/global.images.icons.dart';
+import 'package:my_flutter_app/widgets/overlay.dart';
+import 'package:my_flutter_app/widgets/toast.dart';
+import 'package:provider/provider.dart';
 
 class AppointmentConfirm extends StatefulWidget {
   static final id = 'appointment_confirm';
@@ -11,20 +22,105 @@ class AppointmentConfirm extends StatefulWidget {
 }
 
 class _AppointmentConfirmState extends State<AppointmentConfirm> {
+  final TextEditingController _reasonController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  late DoctorModel doctor;
+  late DateTime selectedDate;
+  late String selectedSession;
+  late TimeSlot timeSlot;
+
+  final loading = LoadingOverlay();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _reasonController.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeDateFormatting();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    final slotInfo = args['slotInfo'] as Map<String, dynamic>;
+
+    doctor = args['doctor'] as DoctorModel;
+    selectedDate = slotInfo['date'] as DateTime;
+    selectedSession = slotInfo['session'] as String;
+    timeSlot = slotInfo['timeSlot'] as TimeSlot;
+  }
+
+  void _initializeDateFormatting() async {
+    await initializeDateFormatting('vi', null);
+  }
+
+  Future<void> handleSubmit() async {
+    if (!_formKey.currentState!.validate()) return;
+    try {
+      loading.show(context);
+      final user = context.read<AuthProvider>().currentUser;
+
+      final appointment = AppointmentModel(
+        patient: user!,
+        doctor: doctor,
+        datetime: Utils.covertDateTimeSendServer(selectedDate),
+        snapshotTimeSlot: SnapshotTimeSlot(
+          session: selectedSession,
+          startTime: timeSlot.startTime,
+          endTime: timeSlot.endTime,
+        ),
+        reason: _reasonController.text.trim(),
+      );
+
+      final appointmentService = AppointmentService();
+      final result = await appointmentService.createAppointment(appointment);
+
+      if (result != null) {
+        print(">>> check result: $result");
+        if (!mounted) return;
+        loading.hide();
+        Toast.show(
+          context: context,
+          message: 'Đặt lịch thành công',
+          type: ToastType.success,
+        );
+        // Navigator.pushNamed(context, HomeScreen.id, arguments: );
+      }
+    } catch (e) {
+      if (!mounted) return;
+
+      loading.hide();
+      Toast.show(
+        context: context,
+        message: e.toString(),
+        type: ToastType.error,
+        duration: 10,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<AuthProvider>().currentUser;
+
     return Scaffold(
       backgroundColor: GlobalColors.bgColor,
       bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         color: Colors.white,
         child: SizedBox(
           width: double.infinity,
           height: 50,
           child: ElevatedButton(
-            onPressed: () {
-              // Xử lý khi nhấn nút
-            },
+            onPressed: handleSubmit,
             style: ElevatedButton.styleFrom(
               backgroundColor: GlobalColors.mainColor,
               shape: RoundedRectangleBorder(
@@ -79,20 +175,14 @@ class _AppointmentConfirmState extends State<AppointmentConfirm> {
               height: 35,
               color: Colors.white,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(horizontal: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    buildHeaderItem(
-                      '1',
-                      'Chọn lịch khám',
-                      GlobalColors.corectColor,
-                    ),
-                    Icon(Icons.arrow_forward_ios, size: 12),
-                    buildHeaderItem('2', 'Xác nhận', GlobalColors.mainColor),
+                    buildHeaderItem('1', 'Xác nhận', GlobalColors.mainColor),
                     Icon(Icons.arrow_forward_ios, size: 12),
                     buildHeaderItem(
-                      '3',
+                      '2',
                       'Nhận lịch hẹn',
                       GlobalColors.greyColor,
                     ),
@@ -106,7 +196,7 @@ class _AppointmentConfirmState extends State<AppointmentConfirm> {
               child: Text(
                 'THÔNG TIN ĐĂNG KÝ',
                 style: TextStyle(
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w700,
                   color: GlobalColors.textColor,
                 ),
               ),
@@ -130,20 +220,20 @@ class _AppointmentConfirmState extends State<AppointmentConfirm> {
                           ),
                           child: CircleAvatar(
                             radius: 30,
-                            backgroundImage: AssetImage(
-                              GlobalImageIcons.doctor1,
-                            ),
+                            backgroundImage: NetworkImage(doctor.avatarUrl),
                           ),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Tiến sĩ,Bác sĩ'),
+                            Text('Bác sĩ'),
                             Text(
-                              'Đào Bùi Quý Quyền',
+                              doctor.user.fullName,
                               style: TextStyle(fontWeight: FontWeight.w700),
                             ),
-                            Text('Chuyên khoa: Nội thận, Ngoại tiết niệu'),
+                            Text(
+                              'Chuyên khoa: ${doctor.specializations.map((s) => s.name).toList().join(', ')}',
+                            ),
                           ],
                         ),
                       ],
@@ -163,16 +253,21 @@ class _AppointmentConfirmState extends State<AppointmentConfirm> {
                             children: [
                               Text('Giờ khám'),
                               Text(
-                                '17:30 - 17:40',
+                                '${timeSlot.startTime} - ${timeSlot.endTime}',
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
                               Text(
-                                'Buổi chiều',
+                                selectedSession == 'morning'
+                                    ? 'Buổi sáng'
+                                    : 'Buổi chiều',
                                 style: TextStyle(
-                                  color: Colors.amber,
+                                  color:
+                                      selectedSession == 'morning'
+                                          ? Colors.blue
+                                          : Colors.amber,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -186,14 +281,14 @@ class _AppointmentConfirmState extends State<AppointmentConfirm> {
                             children: [
                               Text('Ngày khám'),
                               Text(
-                                'Thứ 7',
+                                DateFormat('EEEE', 'vi').format(selectedDate),
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
                               Text(
-                                '07/06/2025',
+                                Utils.formatDate(selectedDate),
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w700,
@@ -205,10 +300,16 @@ class _AppointmentConfirmState extends State<AppointmentConfirm> {
                         SizedBox(width: 10),
                       ],
                     ),
-                    buildInfoItem('Chuyên khoa', 'Thận - Tiết niệu'),
+                    buildInfoItem(
+                      'Chuyên khoa',
+                      doctor.specializations
+                          .map((s) => s.name)
+                          .toList()
+                          .join(' - '),
+                    ),
                     buildInfoItem(
                       'Bác sĩ',
-                      'Tiến sĩ, Bác sĩ ĐÀO BÙI QUÝ QUYỀN',
+                      '${doctor.title} ${doctor.user.fullName}',
                     ),
                     Row(
                       children: [
@@ -229,25 +330,101 @@ class _AppointmentConfirmState extends State<AppointmentConfirm> {
                         ),
                       ],
                     ),
-                    buildInfoItem('Họ tên', 'Nguyễn Phú Tài'),
+                    buildInfoItem('Họ tên', user!.fullName),
                     buildInfoItem2(
                       'Giới tính',
                       'Ngày sinh',
-                      'Nam',
-                      '21/01/2004',
+                      user.gender == 'male' ? 'Nam' : 'Nữ',
+                      user.dobFormated,
                     ),
                     buildInfoItem2(
                       'Điện thoại',
                       'Mã bảo hiểm y tế',
-                      '0788655673',
+                      user.phone,
                       '--',
                     ),
                     buildInfoItem('Mã căn cước công dân', 'Chưa cập nhật'),
-                    buildInfoItem('Địa chỉ', '--'),
+                    buildInfoItem('Địa chỉ', user.address),
                   ],
                 ),
               ),
             ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              child: Text.rich(
+                TextSpan(
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: GlobalColors.textColor,
+                  ),
+                  children: [
+                    TextSpan(text: 'Lý do khám'),
+                    TextSpan(
+                      text: ' *',
+                      style: TextStyle(color: Colors.red.shade600),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Form(
+              key: _formKey,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                child: TextFormField(
+                  controller: _reasonController,
+                  keyboardType: TextInputType.multiline,
+                  minLines: 2,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: 'Nhập lý do khám...',
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade500,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade300,
+                        width: 1.5,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade300,
+                        width: 1.5,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                        color: GlobalColors.mainColor,
+                        width: 1.5,
+                      ),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                        color: Colors.red.shade800,
+                        width: 1.5,
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Vui lòng nhập lý do khám';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+            ),
+
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               child: Text(

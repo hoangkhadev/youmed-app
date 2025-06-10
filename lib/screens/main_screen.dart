@@ -18,16 +18,20 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   late int _currentIndex;
-  final List<Widget> _screens = [
-    HomeScreen(),
-    AppointmentScreen(),
-    MessageScreen(),
-    AccountScreen(),
-  ];
+  final GlobalKey<AppointmentScreenState> appointmentScreenKey =
+      GlobalKey<AppointmentScreenState>();
+
+  late final List<Widget> _screens;
 
   @override
   void initState() {
     super.initState();
+    _screens = [
+      HomeScreen(),
+      AppointmentScreen(key: appointmentScreenKey),
+      MessageScreen(),
+      AccountScreen(),
+    ];
     _currentIndex = widget.currentIndex.clamp(0, _screens.length - 1);
   }
 
@@ -36,6 +40,9 @@ class _MainScreenState extends State<MainScreen> {
       setState(() {
         _currentIndex = index;
       });
+      if (index == 1) {
+        appointmentScreenKey.currentState?.initialAppointments();
+      }
     }
   }
 

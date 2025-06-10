@@ -14,7 +14,7 @@ class ScheduleModel {
 }
 
 class Session {
-  final String session; // "morning" | "afternoon"
+  final String session;
   final List<TimeSlot> timeSlots;
 
   Session({required this.session, required this.timeSlots});

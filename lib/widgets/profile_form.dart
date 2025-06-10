@@ -11,6 +11,7 @@ import 'package:my_flutter_app/screens/selected_district_screen.dart';
 import 'package:my_flutter_app/screens/selected_ward_screen.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/utils/global.images.icons.dart';
+import 'package:my_flutter_app/utils/utils.dart';
 import 'package:my_flutter_app/widgets/custom_bottom_sheet.dart';
 
 class ProfileForm extends StatefulWidget {
@@ -40,20 +41,13 @@ class ProfileFormState extends State<ProfileForm> {
   late TextEditingController _wardController;
   late TextEditingController _address2Controller;
   String gender = 'male';
-  String formatDate(String inputDate) {
-    try {
-      DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(inputDate);
-      return DateFormat('yyyy/MM/dd').format(parsedDate);
-    } catch (e) {
-      return inputDate;
-    }
-  }
+  DateTime selectedDate = DateTime.now();
 
   Map<String, dynamic> getFormData() {
     return {
       'full_name': _nameController.text.trim(),
       'phone': _phoneController.text.trim(),
-      'dob': formatDate(_dobController.text.trim()),
+      'dob': Utils.covertDateTimeSendServer(selectedDate),
       'email': _emailController.text.trim(),
       'city': _cityController.text,
       'district': _districtController.text,
@@ -393,6 +387,7 @@ class ProfileFormState extends State<ProfileForm> {
           buildTextField(
             label: 'Số nhà, tên đường',
             hintText: 'Ví dụ: Số 523, Đường Nguyễn Văn A',
+            isRequired: false,
             readOnly: false,
             controller: _address2Controller,
           ),
@@ -507,7 +502,7 @@ class ProfileFormState extends State<ProfileForm> {
     );
   }
 
-  Widget genderOption({required String label}) {
+  Widget genderOption({String label = 'male'}) {
     bool isSelected = label == gender;
 
     return GestureDetector(
@@ -564,8 +559,6 @@ class ProfileFormState extends State<ProfileForm> {
   }
 
   Widget buildDatePicker({required TextEditingController controller}) {
-    DateTime selectedDate = DateTime.now();
-
     if (controller.text.isNotEmpty) {
       try {
         selectedDate = DateFormat('dd/MM/yyyy').parse(controller.text);
