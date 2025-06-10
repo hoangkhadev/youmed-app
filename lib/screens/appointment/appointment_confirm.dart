@@ -6,12 +6,12 @@ import 'package:my_flutter_app/models/doctor_model.dart';
 import 'package:my_flutter_app/models/schedule_model.dart';
 import 'package:my_flutter_app/utils/utils.dart';
 import 'package:my_flutter_app/providers/auth_provider.dart';
-import 'package:my_flutter_app/screens/home/home_screen.dart';
 import 'package:my_flutter_app/services/appointment_service.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/widgets/overlay.dart';
 import 'package:my_flutter_app/widgets/toast.dart';
 import 'package:provider/provider.dart';
+import 'appointment_payment.dart';
 
 class AppointmentConfirm extends StatefulWidget {
   static final id = 'appointment_confirm';
@@ -84,7 +84,6 @@ class _AppointmentConfirmState extends State<AppointmentConfirm> {
       final result = await appointmentService.createAppointment(appointment);
 
       if (result != null) {
-        print(">>> check result: $result");
         if (!mounted) return;
         loading.hide();
         Toast.show(
@@ -92,7 +91,7 @@ class _AppointmentConfirmState extends State<AppointmentConfirm> {
           message: 'Đặt lịch thành công',
           type: ToastType.success,
         );
-        // Navigator.pushNamed(context, HomeScreen.id, arguments: );
+        Navigator.pushNamed(context, AppointmentPay.id, arguments: result);
       }
     } catch (e) {
       if (!mounted) return;

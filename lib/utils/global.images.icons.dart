@@ -19,6 +19,7 @@ class GlobalImageIcons {
   static String radioButtonCheckedIcon = '$iconPath/radio-button-checked.png';
   static String dateTimePickerIcon = '$iconPath/calendar.png';
   static String certification = '$iconPath/high-quality.png';
+  static String messageChat = '$iconPath/message_chat.png';
 
   /* Banner */
   static String banner1 = '$imagePath/banner/banner1.png';

@@ -53,6 +53,7 @@ dependencies:
   flutter_secure_storage: ^9.2.4
   collection: ^1.19.1
   flutter_html: ^3.0.0
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:
@@ -90,6 +91,7 @@ flutter:
     - assets/images/icons/radio-button-checked.png
     - assets/images/icons/calendar.png
     - assets/images/icons/high-quality.png
+    - assets/images/icons/message_chat.png
 
     # Banner image
     - assets/images/banner/banner1.png
