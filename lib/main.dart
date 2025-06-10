@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Nunito',
         scaffoldBackgroundColor: GlobalColors.bgColor,
       ),
-      initialRoute: AppointmentConfirm.id,
+      initialRoute: SplashScreen.id,
       routes: AppRoutes.routes,
     );
   }

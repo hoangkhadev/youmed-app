@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/utils/global.images.icons.dart';
+import 'appointment_payment.dart';
 
 class AppointmentConfirm extends StatefulWidget {
   static final id = 'appointment_confirm';
@@ -23,7 +24,10 @@ class _AppointmentConfirmState extends State<AppointmentConfirm> {
           height: 50,
           child: ElevatedButton(
             onPressed: () {
-              // Xử lý khi nhấn nút
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => AppointmentPay()),
+              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: GlobalColors.mainColor,
