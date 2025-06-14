@@ -10,6 +10,7 @@ class FeatureItem extends StatelessWidget {
   final double? height;
   final double? fontSize;
   final double? widthSizedBox;
+  final bool? isNetwork;
 
   const FeatureItem({
     super.key,
@@ -20,6 +21,7 @@ class FeatureItem extends StatelessWidget {
     this.fontSize = 14,
     this.widthSizedBox = 85,
     this.onTap,
+    this.isNetwork = false,
   });
 
   @override
@@ -28,7 +30,9 @@ class FeatureItem extends StatelessWidget {
       onTap: onTap,
       child: Column(
         children: [
-          Image.asset(imagePath, width: width, height: height),
+          isNetwork == true
+              ? Image.network(imagePath, width: width, height: height)
+              : Image.asset(imagePath, width: width, height: height),
           const SizedBox(height: 8),
           SizedBox(
             width: widthSizedBox,

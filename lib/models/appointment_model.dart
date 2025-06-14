@@ -35,6 +35,7 @@ class AppointmentModel {
   final String reason;
   final AppointmentStatus? status;
   final SnapshotTimeSlot snapshotTimeSlot;
+  final int? appointmentNumber;
 
   AppointmentModel({
     this.id,
@@ -43,6 +44,7 @@ class AppointmentModel {
     required this.datetime,
     required this.reason,
     required this.snapshotTimeSlot,
+    this.appointmentNumber,
     this.status,
   });
 
@@ -83,6 +85,7 @@ class AppointmentModel {
       reason: json['reason'],
       status: _statusFromString(json['status']),
       snapshotTimeSlot: SnapshotTimeSlot.fromJson(json['snapshot_time_slot']),
+      appointmentNumber: json['appointment_number'],
     );
   }
 }

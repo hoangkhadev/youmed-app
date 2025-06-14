@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_app/models/appointment_model.dart';
+import 'package:my_flutter_app/utils/utils.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:my_flutter_app/screens/main_screen.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/utils/global.images.icons.dart';
+import 'package:intl/intl.dart';
 
 class AppointmentPay extends StatefulWidget {
   static final id = 'appointmentpay_screen';
@@ -16,6 +18,7 @@ class AppointmentPay extends StatefulWidget {
 class _AppointmentPayState extends State<AppointmentPay> {
   late AppointmentModel appointmentBooked;
   bool _isInitialized = false;
+  DateTime now = DateTime.now();
 
   @override
   void didChangeDependencies() {
@@ -30,7 +33,6 @@ class _AppointmentPayState extends State<AppointmentPay> {
 
   @override
   Widget build(BuildContext context) {
-    final qrCode = 'YMA2506070960';
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -51,7 +53,7 @@ class _AppointmentPayState extends State<AppointmentPay> {
               ),
               child: Column(
                 children: [
-                  Icon(Icons.check_circle, color: Colors.green, size: 48),
+                  Icon(Icons.check_circle, color: Colors.green, size: 32),
                   SizedBox(height: 8),
                   Text(
                     "Đã đặt lịch",
@@ -62,7 +64,7 @@ class _AppointmentPayState extends State<AppointmentPay> {
                     ),
                   ),
                   Text(
-                    "12:48:02 07/06/2025",
+                    DateFormat('HH:mm:ss dd/MM/yyyy').format(now),
                     style: TextStyle(color: Colors.grey[700]),
                   ),
                 ],
@@ -99,7 +101,8 @@ class _AppointmentPayState extends State<AppointmentPay> {
                                 ),
                                 SizedBox(width: 8),
                                 Text(
-                                  "2",
+                                  appointmentBooked.appointmentNumber
+                                      .toString(),
                                   style: TextStyle(
                                     fontSize: 32,
                                     fontWeight: FontWeight.bold,
@@ -112,7 +115,7 @@ class _AppointmentPayState extends State<AppointmentPay> {
                               width: 100,
                               height: 100,
                               child: QrImageView(
-                                data: qrCode,
+                                data: appointmentBooked.id!,
                                 version: QrVersions.auto,
                               ),
                             ),
@@ -123,8 +126,8 @@ class _AppointmentPayState extends State<AppointmentPay> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             CircleAvatar(
-                              backgroundImage: AssetImage(
-                                GlobalImageIcons.doctor1,
+                              backgroundImage: NetworkImage(
+                                appointmentBooked.doctor.avatarUrl,
                               ),
                               radius: 35,
                             ),
@@ -140,13 +143,13 @@ class _AppointmentPayState extends State<AppointmentPay> {
                                     ),
                                   ),
                                   Text(
-                                    "Lê Thị Minh Hồng",
+                                    appointmentBooked.doctor.user.fullName,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                   Text(
-                                    "250 Nguyễn Xí, P.13, Q. Bình Thạnh, TP.HCM",
+                                    appointmentBooked.doctor.user.address,
                                     style: TextStyle(
                                       color: const Color.fromARGB(
                                         255,
@@ -162,14 +165,28 @@ class _AppointmentPayState extends State<AppointmentPay> {
                           ],
                         ),
                         SizedBox(height: 16),
-                        InfoRow(title: "Mã lịch khám", value: qrCode),
-                        InfoRow(title: "Ngày khám", value: "T7, 07/06/2025"),
+                        InfoRow(
+                          title: "Mã lịch khám",
+                          value: appointmentBooked.id!,
+                        ),
+                        InfoRow(
+                          title: "Ngày khám",
+                          value: Utils.formatDateFromString(
+                            appointmentBooked.datetime,
+                          ),
+                        ),
                         InfoRow(
                           title: "Giờ khám",
-                          value: "17:05 - 17:10 (Buổi chiều)",
+                          value:
+                              "${appointmentBooked.snapshotTimeSlot.startTime} - ${appointmentBooked.snapshotTimeSlot.endTime} (${appointmentBooked.snapshotTimeSlot.session == 'morning' ? 'Buổi sáng' : 'Buổi chiều'})",
                           valueColor: Colors.green,
                         ),
-                        InfoRow(title: "Chuyên khoa", value: "Nhi khoa"),
+                        InfoRow(
+                          title: "Chuyên khoa",
+                          value: appointmentBooked.doctor.specializations
+                              .map((s) => s.name)
+                              .join(', '),
+                        ),
                         SizedBox(height: 16),
                         Row(
                           children: [
@@ -190,10 +207,25 @@ class _AppointmentPayState extends State<AppointmentPay> {
                         ),
 
                         SizedBox(height: 8),
-                        InfoRow(title: "Họ và tên", value: "Nguyễn Phú Tài"),
-                        InfoRow(title: "Ngày sinh", value: "21/01/2004"),
-                        InfoRow(title: "Giới tính", value: "Nam"),
-                        InfoRow(title: "Số điện thoại", value: "0788 655 673"),
+                        InfoRow(
+                          title: "Họ và tên",
+                          value: appointmentBooked.patient.fullName,
+                        ),
+                        InfoRow(
+                          title: "Ngày sinh",
+                          value: appointmentBooked.patient.dobFormated,
+                        ),
+                        InfoRow(
+                          title: "Giới tính",
+                          value:
+                              appointmentBooked.patient.gender == 'male'
+                                  ? 'Nam'
+                                  : 'Nữ',
+                        ),
+                        InfoRow(
+                          title: "Số điện thoại",
+                          value: appointmentBooked.patient.phone,
+                        ),
                       ],
                     ),
                   ),
@@ -205,7 +237,7 @@ class _AppointmentPayState extends State<AppointmentPay> {
         ],
       ),
       bottomNavigationBar: Container(
-        height: 70,
+        height: 90,
         decoration: BoxDecoration(
           color: GlobalColors.whiteColor,
           border: Border(
@@ -221,7 +253,6 @@ class _AppointmentPayState extends State<AppointmentPay> {
             GestureDetector(
               child: Container(
                 width: 170,
-                height: 40,
                 decoration: BoxDecoration(
                   border: Border.all(
                     style: BorderStyle.solid,
@@ -231,7 +262,7 @@ class _AppointmentPayState extends State<AppointmentPay> {
                   borderRadius: BorderRadius.circular(7),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                   child: Text(
                     "Về trang chủ",
                     textAlign: TextAlign.center,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/screens/auth/login_screen.dart';
 import 'package:my_flutter_app/widgets/overlay.dart';
 import 'package:provider/provider.dart';
 
@@ -70,7 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           builder:
               (_) => CustomDialog(
                 onConfirm: () {
-                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, LoginScreen.id);
                 },
                 title: 'Tài khoản',
                 description: messageError,

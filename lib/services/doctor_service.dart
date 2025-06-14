@@ -6,12 +6,15 @@ import 'package:my_flutter_app/models/doctor_model.dart';
 class DoctorService {
   final _api = ApiClient();
 
-  Future<List<DoctorModel>> getAllDoctors() async {
-    final res = await _api.get('doctors');
+  Future<List<DoctorModel>?> getAllDoctors({
+    int? limit,
+    String? search = '',
+  }) async {
+    final res = await _api.get('doctors?limit=$limit&q=$search');
 
     if (res.statusCode == 200) {
-      final data = jsonDecode(res.body);
-      return (data as List).map((item) => DoctorModel.fromJson(item)).toList();
+      List<dynamic> data = jsonDecode(res.body);
+      return data.map((item) => DoctorModel.fromJson(item)).toList();
     } else {
       final error = jsonDecode(res.body);
       throw error['message'] ?? 'Lỗi khi lấy danh sách bác sĩ';

@@ -28,7 +28,7 @@ class _AccountScreenState extends State<AccountScreen> {
             cancleText: 'Hủy',
             confirmText: 'Đăng nhập',
             onConfirm: () {
-              Navigator.pushNamed(context, LoginScreen.id);
+              Navigator.pushReplacementNamed(context, LoginScreen.id);
             },
           ),
     );

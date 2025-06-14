@@ -583,7 +583,9 @@ class ProfileFormState extends State<ProfileForm> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
               TextButton(
                 child: Text(

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_app/models/specialty_model.dart';
+import 'package:my_flutter_app/services/specialty_service.dart';
 
-import 'package:my_flutter_app/utils/data.dart';
 import 'package:my_flutter_app/utils/global.colors.dart';
 import 'package:my_flutter_app/utils/global.images.icons.dart';
 
 import 'package:my_flutter_app/widgets/custom_bottom_sheet.dart';
 import 'package:my_flutter_app/widgets/feature_item.dart';
 import 'package:my_flutter_app/widgets/heading_title.dart';
+import 'package:my_flutter_app/widgets/loading.dart';
+import 'package:my_flutter_app/widgets/toast.dart';
 
 class HomeSpecialty extends StatefulWidget {
   const HomeSpecialty({super.key});
@@ -16,7 +19,43 @@ class HomeSpecialty extends StatefulWidget {
 }
 
 class _HomeSpecialtyState extends State<HomeSpecialty> {
-  var displayItems = specialties.take(8).toList();
+  List<SpecialtyModel>? _displayItems;
+  List<SpecialtyModel>? _specialties;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    initialHospitals();
+  }
+
+  Future<void> initialHospitals() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      final specialtyService = SpecialtyService();
+      final result = await specialtyService.getSpecialties();
+
+      if (result != null) {
+        setState(() {
+          _specialties = result;
+          _displayItems = result.take(8).toList();
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      if (!mounted) return;
+      Toast.show(
+        context: context,
+        message: e.toString(),
+        type: ToastType.error,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,42 +71,44 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
           ),
 
           SizedBox(height: 20),
-          FittedBox(
-            child: Column(
-              children: List.generate(2, (rowIndex) {
-                int startIndex = rowIndex * 4;
-                return Padding(
-                  padding: EdgeInsets.only(bottom: rowIndex < 1 ? 20 : 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(4, (colIndex) {
-                      int itemIndex = startIndex + colIndex;
-                      final item = displayItems[itemIndex];
-                      return FeatureItem(
-                        width: 55,
-                        height: 55,
-                        widthSizedBox: 90,
-                        title: item['title']!,
-                        imagePath: item['image']!,
-                      );
-                    }),
-                  ),
-                );
-              }),
-            ),
-          ),
+          isLoading || _displayItems == null
+              ? Loading()
+              : FittedBox(
+                child: Column(
+                  children: List.generate(2, (rowIndex) {
+                    int startIndex = rowIndex * 4;
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: rowIndex < 1 ? 20 : 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: List.generate(4, (colIndex) {
+                          int itemIndex = startIndex + colIndex;
+                          final item = _displayItems![itemIndex];
+                          return FeatureItem(
+                            isNetwork: true,
+                            width: 55,
+                            height: 55,
+                            widthSizedBox: 90,
+                            title: item.name,
+                            imagePath: item.imageUrl,
+                          );
+                        }),
+                      ),
+                    );
+                  }),
+                ),
+              ),
 
           SizedBox(height: 20),
 
           ElevatedButton(
             onPressed: () {
-              displayItems = specialties.toList();
               CustomBottomSheet.show(
                 height: 500,
                 context: context,
                 child: modalBottomSheetSpecialty(
                   context: context,
-                  displayItems: displayItems,
+                  displayItems: _specialties!,
                 ),
               );
             },
@@ -101,7 +142,7 @@ class _HomeSpecialtyState extends State<HomeSpecialty> {
 
 Widget modalBottomSheetSpecialty({
   required BuildContext context,
-  required List<Map<String, String>> displayItems,
+  required List<SpecialtyModel> displayItems,
 }) {
   return Column(
     children: [
@@ -111,7 +152,9 @@ Widget modalBottomSheetSpecialty({
         children: [
           IconButton(
             iconSize: 30,
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.pop(context);
+            },
             icon: Icon(Icons.close, size: 22, color: GlobalColors.textColor),
           ),
 
@@ -163,11 +206,12 @@ Widget modalBottomSheetSpecialty({
                     children:
                         rowItems.map((item) {
                           return FeatureItem(
+                            isNetwork: true,
                             width: 55,
                             height: 55,
                             widthSizedBox: 85,
-                            title: item['title']!,
-                            imagePath: item['image']!,
+                            title: item.name,
+                            imagePath: item.imageUrl,
                           );
                         }).toList(),
                   ),

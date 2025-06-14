@@ -56,7 +56,9 @@ class _FilterChipsRowState extends State<FilterChipsRow> {
                 children: [
                   IconButton(
                     iconSize: 30,
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     icon: Icon(
                       Icons.close,
                       size: 22,
@@ -200,7 +202,9 @@ class _FilterChipsRowState extends State<FilterChipsRow> {
                 children: [
                   IconButton(
                     iconSize: 30,
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     icon: Icon(
                       Icons.close,
                       size: 22,

@@ -10,6 +10,8 @@ import 'package:my_flutter_app/screens/auth/register_screen.dart';
 import 'package:my_flutter_app/screens/main_screen.dart';
 import 'package:my_flutter_app/screens/splash/splash.screen.dart';
 import 'package:my_flutter_app/screens/appointment/appointment_confirm.dart';
+import 'package:my_flutter_app/screens/appointment/appointment_payment.dart';
+import 'package:my_flutter_app/screens/appointment/appointment_detail.dart';
 
 class AppRoutes {
   static final routes = {
@@ -30,5 +32,7 @@ class AppRoutes {
     SearchScreen.id: (_) => const SearchScreen(),
     AccountUpdateFormScreen.id: (_) => const AccountUpdateFormScreen(),
     AppointmentConfirm.id: (_) => const AppointmentConfirm(),
+    AppointmentDetail.id: (_) => const AppointmentDetail(),
+    AppointmentPay.id: (_) => const AppointmentPay(),
   };
 }

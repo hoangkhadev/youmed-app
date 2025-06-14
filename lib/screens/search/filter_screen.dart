@@ -55,7 +55,9 @@ class _FilterScreenState extends State<FilterScreen> {
               Icons.arrow_back_ios_outlined,
               color: GlobalColors.whiteColor,
             ),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           titleSpacing: 0,
           title: Padding(

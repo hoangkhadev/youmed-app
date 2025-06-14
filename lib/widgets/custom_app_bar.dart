@@ -22,7 +22,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       leadingWidth: 40,
       leading: GestureDetector(
-        onTap: onTap ?? () => Navigator.pop(context),
+        onTap:
+            onTap ??
+            () {
+              Navigator.pop(context);
+            },
         child: Icon(
           Icons.arrow_back_ios_outlined,
           size: 20,

@@ -29,4 +29,16 @@ class AppointmentService {
       throw error['message'] ?? 'Có lỗi xảy ra vui lòng thử lại sau';
     }
   }
+
+  Future<bool> cancleAppointment(String appointmentId) async {
+    final res = await _api.put('appointments/$appointmentId/status', {
+      'status': 'cancelled',
+    });
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      final error = jsonDecode(res.body);
+      throw error['message'] ?? 'Có lỗi xảy ra vui lòng thử lại sau';
+    }
+  }
 }

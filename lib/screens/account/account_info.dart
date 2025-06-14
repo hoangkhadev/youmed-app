@@ -147,7 +147,9 @@ class _AccountInfoState extends State<AccountInfo> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: () => Navigator.pop(context),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
                       child: SizedBox(
                         width: 30,
                         height: 30,
